@@ -3,7 +3,7 @@
     <b-button
       class="open-form-button"
       variant="danger"
-      @click="openForm"
+      @click="toggleOpen"
     >
       {{isOpen ? 'Закрыть форму постинга' : 'Создать пост'}}
     </b-button>
@@ -15,63 +15,45 @@
         >
           <div>
             <b-input
-              v-model.trim="title"
-              :value="title"
-              :state="titleValidation"
+              @input="updateTitle"
+              :value="postTitle"
+              :state="isValidTitle"
               placeholder="Заголовок поста">
             </b-input>
-            <b-form-invalid-feedback :state="titleValidation">
+            <b-form-invalid-feedback :state="isValidTitle">
               Заголовок поста должен содержать не меньше 6 символов.
             </b-form-invalid-feedback>
           </div>
           <div class="textarea-container">
             <b-form-textarea
-              v-model.trim="content"
-              :value="content"
-              :state="contentValidation"
+              @input="updateContent"
+              :value="postContent"
+              :state="isValidContent"
               placeholder="Содержание поста"
               rows="3"
               max-rows="6">
             </b-form-textarea>
-            <b-form-invalid-feedback :state="contentValidation">
+            <b-form-invalid-feedback :state="isValidContent">
               Пост должен содержать не меньше 16 символов.
             </b-form-invalid-feedback>
           </div>
-          <div class="urls-container">
-            <b-input
-              v-model.trim="imageURL"
-              :value="imageURL"
-              :state="imageURLValidation"
-              placeholder="URL картинки">
-            </b-input>
-            <b-form-invalid-feedback :state="imageURLValidation">
-              Некорректный URL.
-            </b-form-invalid-feedback>
-            <button class="add-url-button">
-              <b-icon-plus
-                class="border border-info rounded"
-                font-scale="2.3"
-                variant="info">
-              </b-icon-plus>
-            </button>
-          </div>
-          <div>
+          <div class="input-file-container">
             <b-form-file
+              class="input-file"
               multiple
               accept="image/*"
               v-model="images"
-              :state="Boolean(file)"
-              placeholder="Choose a file or drop it here..."
-              drop-placeholder="Drop file here..."
+              :state="Boolean(images)"
+              placeholder="Выберите одно или несколько изображений"
+              drop-placeholder="Поместите изображение сюда"
             ></b-form-file>
-            <div class="mt-3">Selected file: {{ file ? file.name : '' }}</div>
-            <b-button @click="downloadHandler">Загрузить файлик)</b-button>
+            <b-button @click="downloadHandler">Загрузить файлики)</b-button>
           </div>
           <b-button
             class="submit-button"
             variant="danger"
-            :disabled="!commonValidation"
-            @click="onSubmit"
+            :disabled="!(isValidTitle && isValidContent)"
+            @click="createPost"
           >
             Создать пост
           </b-button>
@@ -82,84 +64,24 @@
 </template>
 
 <script>
+  import { mapActions, mapMutations, mapGetters } from 'vuex';
+
   export default {
     name: 'CreatePostForm',
-    data() {
-      return {
-        isOpen: false,
-        isDisabled: true,
-        title: '',
-        content: '',
-        imageURL: '',
-        images: null,
-      };
-    },
-    computed: {
-      titleValidation() {
-        if (this.title) {
-          return this.title.length >= 6;
-        }
-
-        return null;
-      },
-      contentValidation() {
-        if (this.content) {
-          return this.content.length >= 16;
-        }
-
-        return null;
-      },
-      imageURLValidation() {
-        if (this.imageURL) {
-          return !!this.imageURL.match(/^https?:\/\/\S+(?:jpg|jpeg|png)$/);
-        }
-
-        return null;
-      },
-      commonValidation() {
-        return this.title.length >= 6
-          && this.content.length >= 16
-          && !!this.imageURL.match(/^https?:\/\/\S+(?:jpg|jpeg|png)$/);
-      },
-    },
+    computed: mapGetters([
+      'postTitle',
+      'postContent',
+      'isValidTitle',
+      'isValidContent',
+      'isOpen',
+    ]),
     methods: {
-      openForm() {
-        this.isOpen = !this.isOpen;
-      },
-      onSubmit() {
-        const { title, content, imageURL } = this;
-        this.isOpen = false;
-        this.title = '';
-        this.content = '';
-        this.imageURL = '';
-
-        fetch('/posts', {
-          method: 'POST',
-          mode: 'cors',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            title,
-            content,
-            imageURL,
-          }),
-        }).then(response => response.json());
-      },
-      downloadHandler() {
-        const images = this.images;
-        const formData = new FormData();
-        images.forEach((image) => {
-          formData.append('images', image);
-        });
-
-        console.log(formData);
-
-        fetch('/upload', {
-          method: 'POST',
-          mode: 'cors',
-          body: formData,
-        }).then(response => response.json())
-          .catch(err => console.log(err));
-      },
+      ...mapMutations([
+        'updateTitle',
+        'updateContent',
+        'toggleOpen',
+      ]),
+      ...mapActions(['createPost']),
     },
   };
 </script>
@@ -176,21 +98,20 @@
 
   .form {
     margin: 0 auto;
-    width: 25%;
+    width: 26%;
   }
 
-  .urls-container {
-    display: flex;
-    margin-top: 30px;
+  .input-file {
+    text-align: left;
+    font-size: 12px;
   }
 
   .textarea-container {
     margin-top: 30px;
   }
 
-  .add-url-button {
-    background-color: #fff;
-    border: none;
+  .input-file-container {
+    margin-top: 30px;
   }
 
   .submit-button {
@@ -200,7 +121,7 @@
   .fade-enter-active, .fade-leave-active {
     max-height: 2048px;
     opacity: 1;
-    transition: max-height 1s ease-out, visibility 1s linear, opacity 1s ease-out;
+    transition: max-height .5s ease-out, visibility .5s linear, opacity .5s ease-out;
   }
 
   .fade-enter, .fade-leave-to {

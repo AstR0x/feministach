@@ -1,38 +1,37 @@
 <template>
-  <div class="section">
-    <div class="loader" v-if="isLoading">
-      <b-spinner
-        variant="danger"
-        label="Spinning">
-      </b-spinner>
+  <div>
+    <div v-if="isLoading" class="loader">
+      <b-spinner variant="danger" label="Spinning"></b-spinner>
     </div>
-    <div v-else>
-      <Post :post="post" :is-opened="true"/>
+    <div v-else class="section">
+      <Post :post="post" :is-opened="true" />
       <Comments :comments="post.comments" />
     </div>
   </div>
 </template>
 
 <script>
+  import { mapGetters, mapActions } from 'vuex';
+
   import Comments from '../components/Comments.vue';
   import Post from '../components/Post.vue';
 
   export default {
     name: 'OpenedPost',
+    components: {
+      Post,
+      Comments,
+    },
     data() {
       return {
-        post: null,
         isLoading: true,
       };
     },
-    components: { Post, Comments },
-    mounted() {
-      return fetch(`/posts/${this.$route.params.id}`)
-        .then(res => res.json())
-        .then((data) => {
-          this.post = data;
-          this.isLoading = false;
-        });
+    computed: mapGetters(['post']),
+    methods: mapActions(['fetchPost']),
+    async mounted() {
+      await this.fetchPost(this.$route.params.id);
+      this.isLoading = false;
     },
   };
 </script>
@@ -43,7 +42,7 @@
   }
 
   .loader {
-    margin-top: 25%;
+    margin-top: 22%;
     text-align: center;
   }
 </style>

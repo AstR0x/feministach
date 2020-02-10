@@ -2,7 +2,7 @@
   <div class="comments-container">
     <h3 class="comments-heading">Комментарии</h3>
     <ul class="comments">
-      <li v-for="comment in comments" :key="comment">
+      <li v-for="comment in comments" :key="comment._id">
         <div class="comment">
           <div class="comment-header">
             <time class="time">{{new Date(comment.date).toLocaleTimeString()}}</time>
@@ -13,10 +13,10 @@
     </ul>
     <form class="form" @submit.prevent="addComment">
       <b-form-input
+        @input="updateComment"
+        :value="newComment"
         type="text"
         placeholder="Новый комментарий"
-        value="newComment"
-        v-model="newComment"
       />
       <b-button
         class="submit-button"
@@ -30,24 +30,16 @@
 </template>
 
 <script>
+  import { mapMutations, mapGetters } from 'vuex';
+
   export default {
     name: 'Comments',
     props: ['comments'],
-    data() {
-      return {
-        newComment: '',
-      };
-    },
+    computed: mapGetters(['newComment']),
     methods: {
+      ...mapMutations(['updateComment']),
       addComment() {
-        this.comments.push({ content: this.newComment });
-
-        return fetch(`/posts/${this.$route.params.id}`, {
-          method: 'PATCH',
-          mode: 'cors',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ comments: this.comments }),
-        });
+        this.$store.dispatch('addComment', this.$route.params.id);
       },
     },
   };
@@ -56,7 +48,6 @@
 <style scoped>
   .comments-container {
     max-width: 50%;
-    margin: 30px;
   }
 
   .comments-heading {
@@ -104,7 +95,7 @@
   .form {
     width: 80%;
     display: flex;
-    margin-top: 50px;
+    margin: 50px 0;
   }
 
   .submit-button {

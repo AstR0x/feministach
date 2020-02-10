@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 
-import Main from './pages/Main.vue';
+import AllPosts from './pages/AllPosts.vue';
 import OpenedPost from './pages/OpenedPost.vue';
 
 Vue.use(Router);
@@ -11,7 +11,7 @@ export default new Router({
   routes: [
     {
       path: '/',
-      component: Main,
+      component: AllPosts,
     },
     {
       path: '/opened-post/:id',
