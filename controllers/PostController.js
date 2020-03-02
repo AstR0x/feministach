@@ -34,12 +34,13 @@ class PostController {
   }
 
   create(req, res) {
-    const data = req.body;
+    const { title, content } = req.body;
+    const imagesUrls = req.files.map((file) => `http://localhost:5000/images/${file.filename}`);
 
     const post = new PostModel({
-      title: data.title,
-      content: data.content,
-      imageURL: data.imageURL,
+      title,
+      content,
+      imagesUrls,
     });
 
     post.save()

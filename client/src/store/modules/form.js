@@ -1,29 +1,32 @@
 export default {
   actions: {
     async createPost(ctx) {
+      const formData = new FormData();
+
       const {
         title,
         content,
-        isValidTitle,
-        isValidContent,
+        images,
       } = ctx.state.postForm;
 
-      if (isValidTitle && isValidContent) {
-        await fetch('/posts', {
-          method: 'POST',
-          mode: 'cors',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            title,
-            content,
-            imageURL: 'https://sun9-42.userapi.com/c200528/v200528677/5bc68/FjphHnTkgiA.jpg',
-          }),
-        });
 
-        ctx.commit('updateTitle', '');
-        ctx.commit('updateContent', '');
-        ctx.commit('toggleOpen');
-      }
+      images.forEach((image) => {
+        formData.append('images', image);
+      });
+
+      formData.append('title', title);
+      formData.append('content', content);
+
+      await fetch('/posts', {
+        method: 'POST',
+        mode: 'cors',
+        body: formData,
+      });
+
+      ctx.commit('updateTitle', '');
+      ctx.commit('updateContent', '');
+      ctx.commit('updateImages', null);
+      ctx.commit('toggleOpen');
     },
   },
   mutations: {
@@ -35,6 +38,10 @@ export default {
       state.postForm.content = content;
       state.postForm.isValidContent = content.length ? content.length >= 16 : null;
     },
+    updateImages(state, images) {
+      state.postForm.images = images;
+      state.postForm.isValidImages = Boolean(images);
+    },
     toggleOpen(state) {
       state.postForm.isOpen = !state.postForm.isOpen;
     },
@@ -45,6 +52,7 @@ export default {
       content: '',
       isValidTitle: null,
       isValidContent: null,
+      isValidImages: null,
       isOpen: false,
       images: null,
     },
@@ -61,6 +69,9 @@ export default {
     },
     isValidContent(state) {
       return state.postForm.isValidContent;
+    },
+    isValidImages(state) {
+      return state.postForm.isValidImages;
     },
     isOpen(state) {
       return state.postForm.isOpen;

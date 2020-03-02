@@ -39,20 +39,19 @@
           </div>
           <div class="input-file-container">
             <b-form-file
+              @input="updateImages"
               class="input-file"
               multiple
               accept="image/*"
-              v-model="images"
-              :state="Boolean(images)"
+              :state="isValidImages"
               placeholder="Выберите одно или несколько изображений"
               drop-placeholder="Поместите изображение сюда"
             ></b-form-file>
-            <b-button @click="downloadHandler">Загрузить файлики)</b-button>
           </div>
           <b-button
             class="submit-button"
             variant="danger"
-            :disabled="!(isValidTitle && isValidContent)"
+            :disabled="!(isValidTitle && isValidContent && isValidImages)"
             @click="createPost"
           >
             Создать пост
@@ -73,12 +72,14 @@
       'postContent',
       'isValidTitle',
       'isValidContent',
+      'isValidImages',
       'isOpen',
     ]),
     methods: {
       ...mapMutations([
         'updateTitle',
         'updateContent',
+        'updateImages',
         'toggleOpen',
       ]),
       ...mapActions(['createPost']),
