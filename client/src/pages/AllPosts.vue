@@ -42,6 +42,7 @@
     width: 90%;
     margin: 0 auto;
   }
+
   .loader {
     margin-top: 13%;
     text-align: center;

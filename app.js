@@ -19,7 +19,7 @@ app.use('/images', express.static(path.resolve(__dirname, 'uploads')));
 app.get('/posts', post.index);
 app.get('/posts/:id', post.read);
 app.post('/posts', upload, post.create);
-app.patch('/posts/:id', post.update);
+app.patch('/posts/:id', upload, post.update);
 
 const PORT = config.get('PORT') || 5000;
 const MONGO_DB_URL = process.env.MONGO_DB_URL;

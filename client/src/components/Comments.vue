@@ -8,23 +8,39 @@
             <time class="time">{{new Date(comment.date).toLocaleTimeString()}}</time>
             <time class="date">{{new Date(comment.date).toLocaleDateString()}}</time>
           </div>
+          <ModalImages :images="comment.images"/>
           <p class="content">{{comment.content}}</p></div>
       </li>
     </ul>
     <form class="form" @submit.prevent="addComment">
-      <b-form-input
-        @input="updateComment"
-        :value="newComment"
-        type="text"
-        placeholder="Новый комментарий"
-      />
-      <b-button
-        class="submit-button"
-        type="submit"
-        variant="danger"
-      >
-        Ответить
-      </b-button>
+      <div>
+        <b-form-input
+          @input="updateComment"
+          :value="newComment"
+          type="text"
+          placeholder="Новый комментарий"
+        />
+      </div>
+      <div class="file-input-button-container">
+        <b-form-file
+          @input="updateImages"
+          class="input-file"
+          multiple
+          accept="image/*"
+          :value="images"
+          :state="isValidImages"
+          placeholder="Выберите изображения"
+          drop-placeholder="Поместите изображения сюда"
+          browse-text="Выбрать"
+        ></b-form-file>
+        <b-button
+          class="submit-button"
+          type="submit"
+          variant="danger"
+        >
+          Ответить
+        </b-button>
+      </div>
     </form>
   </div>
 </template>
@@ -32,12 +48,17 @@
 <script>
   import { mapMutations, mapGetters } from 'vuex';
 
+  import ModalImages from './ModalImages.vue';
+
   export default {
     name: 'Comments',
     props: ['comments'],
-    computed: mapGetters(['newComment']),
+    components: {
+      ModalImages,
+    },
+    computed: mapGetters(['newComment', 'images', 'isValidImages']),
     methods: {
-      ...mapMutations(['updateComment']),
+      ...mapMutations(['updateComment', 'updateImages']),
       addComment() {
         this.$store.dispatch('addComment', this.$route.params.id);
       },
@@ -64,7 +85,7 @@
 
   .comment {
     display: inline-block;
-    padding: 10px 15px 30px 15px;
+    padding: 10px 15px 0 15px;
     margin-top: 25px;
 
     box-shadow: rgba(0, 0, 0, 0.1) 0 3px 3px -2px,
@@ -94,11 +115,17 @@
 
   .form {
     width: 80%;
-    display: flex;
     margin: 50px 0;
   }
 
-  .submit-button {
-    margin-left: 20px;
+  .file-input-button-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+
+  .input-file {
+    width: 54%;
+    font-size: 16px;
   }
 </style>

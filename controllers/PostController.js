@@ -24,23 +24,47 @@ class PostController {
   }
 
   update(req, res) {
-    PostModel.findByIdAndUpdate(req.params.id, { $set: req.body }, err => {
-      if (err) {
-        res.send(err);
-      }
+    const { newComment } = req.body;
 
-      res.json({ status: 'updated' });
-    });
+    const images = req.files.map((file) => ({
+      originalName: file.originalname,
+      url: `http://localhost:5000/images/${file.filename}`,
+      size: file.size,
+      mimetype: file.mimetype,
+    }));
+
+    PostModel.findOne({ _id: req.params.id })
+      .then((post) => {
+        const comments = post.comments;
+        comments.push({
+          content: newComment,
+          images,
+        });
+
+        PostModel.findByIdAndUpdate(req.params.id, { $set: { comments } }, err => {
+          if (err) {
+            res.send(err);
+          }
+
+          res.json({ status: 'updated' });
+        });
+      });
   }
 
   create(req, res) {
     const { title, content } = req.body;
-    const imagesUrls = req.files.map((file) => `http://localhost:5000/images/${file.filename}`);
+
+    const images = req.files.map((file) => ({
+      originalName: file.originalname,
+      url: `http://localhost:5000/images/${file.filename}`,
+      size: file.size,
+      mimetype: file.mimetype,
+    }));
 
     const post = new PostModel({
       title,
       content,
-      imagesUrls,
+      images,
     });
 
     post.save()

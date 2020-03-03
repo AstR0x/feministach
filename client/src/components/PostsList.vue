@@ -2,7 +2,7 @@
   <div>
     <Post
       v-for="post in posts"
-      :key="post.title"
+      :key="post.title + post.content"
       :post="post"
     />
   </div>

@@ -7,19 +7,24 @@ export default {
       ctx.commit('updatePost', post);
     },
     async addComment(ctx, id) {
-      const comments = ctx.state.openedPost.post.comments.slice();
+      const formData = new FormData();
       const newComment = ctx.state.openedPost.newComment;
+      const images = ctx.state.openedPost.images;
 
-      comments.push({ content: newComment });
+      images.forEach((image) => {
+        formData.append('images', image);
+      });
+
+      formData.append('newComment', newComment);
 
       await fetch(`/posts/${id}`, {
         method: 'PATCH',
         mode: 'cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ comments }),
+        body: formData,
       });
 
       ctx.commit('updateComment', '');
+      ctx.commit('updateImages', null);
     },
   },
   mutations: {
@@ -29,11 +34,19 @@ export default {
     updateComment(state, newComment) {
       state.openedPost.newComment = newComment;
     },
+    updateImages(state, images) {
+      state.openedPost.images = images;
+      state.openedPost.isValidImages = Boolean(images) || null;
+      console.log(state.openedPost.isValidImages);
+      console.log(state.openedPost.images);
+    },
   },
   state: {
     openedPost: {
-      post: null,
       newComment: '',
+      post: null,
+      images: null,
+      isValidImages: null,
     },
   },
   getters: {
@@ -42,6 +55,12 @@ export default {
     },
     newComment(state) {
       return state.openedPost.newComment;
+    },
+    images(state) {
+      return state.openedPost.images;
+    },
+    isValidImages(state) {
+      return state.openedPost.isValidImages;
     },
   },
 };

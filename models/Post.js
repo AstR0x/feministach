@@ -9,9 +9,20 @@ const postSchema = new Schema({
     type: String,
     required: true,
   },
-  imagesUrls: [String],
+  images: [{
+    originalName: String,
+    url: String,
+    mimeType: String,
+    size: String,
+  }],
   comments: [{
     content: String,
+    images: [{
+      originalName: String,
+      url: String,
+      mimeType: String,
+      size: String,
+    }],
     date: {
       type: Date,
       default: Date,

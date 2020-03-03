@@ -9,6 +9,7 @@ export default {
         images,
       } = ctx.state.postForm;
 
+      console.log('kek');
 
       images.forEach((image) => {
         formData.append('images', image);
@@ -26,7 +27,6 @@ export default {
       ctx.commit('updateTitle', '');
       ctx.commit('updateContent', '');
       ctx.commit('updateImages', null);
-      ctx.commit('toggleOpen');
     },
   },
   mutations: {
@@ -42,8 +42,13 @@ export default {
       state.postForm.images = images;
       state.postForm.isValidImages = Boolean(images);
     },
-    toggleOpen(state) {
-      state.postForm.isOpen = !state.postForm.isOpen;
+    clearAll(state) {
+      state.postForm.title = '';
+      state.postForm.content = '';
+      state.postForm.images = null;
+      state.postForm.isValidTitle = null;
+      state.postForm.isValidContent = null;
+      state.postForm.isValidImages = null;
     },
   },
   state: {
@@ -53,7 +58,6 @@ export default {
       isValidTitle: null,
       isValidContent: null,
       isValidImages: null,
-      isOpen: false,
       images: null,
     },
   },
@@ -72,9 +76,6 @@ export default {
     },
     isValidImages(state) {
       return state.postForm.isValidImages;
-    },
-    isOpen(state) {
-      return state.postForm.isOpen;
     },
     isDisabled(state) {
       return state.postForm.isDisabled;
