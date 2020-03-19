@@ -49,16 +49,16 @@
         <div class="input-file-container">
           <b-form-file
             @input="updateImages"
+            :value="postImages"
+            :state="isValidImages"
             class="input-file"
             multiple
-            accept="image/*"
-            :state="isValidImages"
+            accept=".png, .jpg, .jpeg"
+
             placeholder="Выберите одно или несколько изображений"
             drop-placeholder="Поместите изображение сюда"
             browse-text="Выбрать файлы"
           ></b-form-file>
-        </div>
-        <div class="submit-button-container">
         </div>
       </b-form>
     </b-modal>
@@ -73,6 +73,7 @@
     computed: mapGetters([
       'postTitle',
       'postContent',
+      'postImages',
       'isValidTitle',
       'isValidContent',
       'isValidImages',

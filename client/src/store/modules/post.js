@@ -9,7 +9,7 @@ export default {
     async addComment(ctx, id) {
       const formData = new FormData();
       const newComment = ctx.state.openedPost.newComment;
-      const images = ctx.state.openedPost.images;
+      const images = ctx.state.openedPost.commentImages;
 
       images.forEach((image) => {
         formData.append('images', image);
@@ -24,7 +24,7 @@ export default {
       });
 
       ctx.commit('updateComment', '');
-      ctx.commit('updateImages', null);
+      ctx.commit('updateCommentImages', []);
     },
   },
   mutations: {
@@ -34,19 +34,17 @@ export default {
     updateComment(state, newComment) {
       state.openedPost.newComment = newComment;
     },
-    updateImages(state, images) {
-      state.openedPost.images = images;
-      state.openedPost.isValidImages = Boolean(images) || null;
-      console.log(state.openedPost.isValidImages);
-      console.log(state.openedPost.images);
+    updateCommentImages(state, commentImages) {
+      state.openedPost.commentImages = commentImages;
+      state.openedPost.isValidCommentImages = Boolean(commentImages.length) || null;
     },
   },
   state: {
     openedPost: {
       newComment: '',
       post: null,
-      images: null,
-      isValidImages: null,
+      commentImages: [],
+      isValidCommentImages: null,
     },
   },
   getters: {
@@ -56,11 +54,11 @@ export default {
     newComment(state) {
       return state.openedPost.newComment;
     },
-    images(state) {
-      return state.openedPost.images;
+    commentImages(state) {
+      return state.openedPost.commentImages;
     },
-    isValidImages(state) {
-      return state.openedPost.isValidImages;
+    isValidCommentImages(state) {
+      return state.openedPost.isValidCommentImages;
     },
   },
 };

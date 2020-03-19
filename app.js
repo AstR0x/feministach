@@ -5,26 +5,23 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const config = require('config');
 
-const PostController = require('./controllers/PostController');
-const upload = require('./utils/upload');
+const postRouter = require('./routes/post');
+const authRouter = require('./routes/auth');
 
 const app = express();
-const post = new PostController();
 
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use('/images', express.static(path.resolve(__dirname, 'uploads')));
 
-app.get('/posts', post.index);
-app.get('/posts/:id', post.read);
-app.post('/posts', upload, post.create);
-app.patch('/posts/:id', upload, post.update);
+app.use('/posts', postRouter);
+app.use('/auth', authRouter);
 
 const PORT = config.get('PORT') || 5000;
 const MONGO_DB_URL = process.env.MONGO_DB_URL;
 
-async function start() {
+const start = async () => {
   try {
     await mongoose.connect(MONGO_DB_URL, {
       useNewUrlParser: true,
@@ -38,7 +35,7 @@ async function start() {
     console.log('Server error', e.measure);
     process.exitCode(1);
   }
-}
+};
 
 if (process.env.NODE_ENV === 'production') {
   app.use('/', express.static(path.join(__dirname, 'client', 'dist')));

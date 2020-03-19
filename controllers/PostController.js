@@ -14,9 +14,9 @@ class PostController {
 
   read(req, res) {
     PostModel.findOne({ _id: req.params.id })
-      .then((post) => {
+      .then(post => {
         if (!post) {
-          res.send({ error: 'not found' });
+          res.send({ error: 'Not found' });
         } else {
           res.json(post);
         }
@@ -26,7 +26,7 @@ class PostController {
   update(req, res) {
     const { newComment } = req.body;
 
-    const images = req.files.map((file) => ({
+    const images = req.files.map(file => ({
       originalName: file.originalname,
       url: `http://localhost:5000/images/${file.filename}`,
       size: file.size,
@@ -34,7 +34,7 @@ class PostController {
     }));
 
     PostModel.findOne({ _id: req.params.id })
-      .then((post) => {
+      .then(post => {
         const comments = post.comments;
         comments.push({
           content: newComment,
@@ -54,7 +54,7 @@ class PostController {
   create(req, res) {
     const { title, content } = req.body;
 
-    const images = req.files.map((file) => ({
+    const images = req.files.map(file => ({
       originalName: file.originalname,
       url: `http://localhost:5000/images/${file.filename}`,
       size: file.size,

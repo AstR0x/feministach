@@ -10,7 +10,8 @@ module.exports = {
     parser: 'babel-eslint',
   },
   rules: {
-    "prefer-destructuring": 0,
-    "class-methods-use-this": 0,
+    'prefer-destructuring': 0,
+    'class-methods-use-this': 0,
+    'arrow-parens': 0,
   }
 };

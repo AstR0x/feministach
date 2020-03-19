@@ -9,8 +9,6 @@ export default {
         images,
       } = ctx.state.postForm;
 
-      console.log('kek');
-
       images.forEach((image) => {
         formData.append('images', image);
       });
@@ -40,7 +38,7 @@ export default {
     },
     updateImages(state, images) {
       state.postForm.images = images;
-      state.postForm.isValidImages = Boolean(images);
+      state.postForm.isValidImages = Boolean(images) || null;
     },
     clearAll(state) {
       state.postForm.title = '';
@@ -67,6 +65,9 @@ export default {
     },
     postContent(state) {
       return state.postForm.content;
+    },
+    postImages(state) {
+      return state.postForm.images;
     },
     isValidTitle(state) {
       return state.postForm.isValidTitle;

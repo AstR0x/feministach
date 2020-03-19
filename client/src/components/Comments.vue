@@ -23,12 +23,12 @@
       </div>
       <div class="file-input-button-container">
         <b-form-file
-          @input="updateImages"
+          @input="updateCommentImages"
+          :value="commentImages"
+          :state="isValidCommentImages"
           class="input-file"
           multiple
-          accept="image/*"
-          :value="images"
-          :state="isValidImages"
+          accept=".png, .jpg, .jpeg"
           placeholder="Выберите изображения"
           drop-placeholder="Поместите изображения сюда"
           browse-text="Выбрать"
@@ -56,9 +56,9 @@
     components: {
       ModalImages,
     },
-    computed: mapGetters(['newComment', 'images', 'isValidImages']),
+    computed: mapGetters(['newComment', 'commentImages', 'isValidCommentImages']),
     methods: {
-      ...mapMutations(['updateComment', 'updateImages']),
+      ...mapMutations(['updateComment', 'updateCommentImages']),
       addComment() {
         this.$store.dispatch('addComment', this.$route.params.id);
       },
