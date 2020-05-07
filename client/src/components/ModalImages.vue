@@ -6,7 +6,12 @@
         v-b-modal="image.url"
         class="image"
         alt="image" />
-      <b-modal :id="image.url" size="lg" centered hide-header hide-footer>
+      <b-modal
+        :id="image.url"
+        size="md"
+        centered
+        hide-header
+        hide-footer>
         <div class="large-image-container">
           <img
             :src="image.url"
@@ -21,7 +26,7 @@
 <script>
   export default {
     name: 'ModalImages',
-    props: ['images'],
+    props: ['images', 'isCommentImage'],
   };
 </script>
 
@@ -32,7 +37,7 @@
   }
 
   .image-container {
-    width: 12%;
+    width: 35%;
   }
 
   .image {
@@ -44,6 +49,6 @@
   }
 
   .large-image {
-    width: 100%;
+    max-width: 100%;
   }
 </style>

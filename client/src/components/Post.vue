@@ -4,10 +4,12 @@
       <time class="time">{{new Date(post.date).toLocaleTimeString()}}</time>
       <time class="date">{{new Date(post.date).toLocaleDateString()}}</time>
     </div>
-    <ModalImages :images="post.images" />
+    <div class="images-container">
+      <ModalImages :images="post.images" />
+    </div>
     <div class="title-container"><h2>{{post.title}}</h2></div>
     <div class="content-container"><p>{{post.content}}</p></div>
-    <div>
+    <div class="post-footer">
       <b-button
         class="submit-button"
         variant="danger"
@@ -20,6 +22,7 @@
           Перейти к посту
         </router-link>
       </b-button>
+      <span class="answer-amount">Ответов: {{post.comments.length}}</span>
     </div>
   </div>
 </template>
@@ -58,16 +61,28 @@
     font-size: 22px;
   }
 
+  .images-container {
+    width: 40%;
+  }
+
   .title-container {
     margin-top: 18px;
   }
 
   .content-container {
+    width: 60%;
     margin-top: 18px;
+    font-size: 16px;
   }
 
-  .submit-button {
-    margin-top: 18px;
+  .post-footer {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .answer-amount {
+    padding-top: 10px;
+    text-transform: uppercase;
   }
 
   .link {

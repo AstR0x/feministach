@@ -25,6 +25,7 @@
     },
     data() {
       return {
+        interval: null,
         isLoading: true,
       };
     },
@@ -32,7 +33,15 @@
     methods: mapActions(['fetchPosts']),
     async mounted() {
       await this.fetchPosts();
+
+      this.interval = setInterval(() => {
+        this.fetchPosts();
+      }, 15000);
+
       this.isLoading = false;
+    },
+    beforeDestroy() {
+      clearInterval(this.interval);
     },
   };
 </script>

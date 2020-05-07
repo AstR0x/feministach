@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="post-list">
     <Post
       v-for="post in posts"
       :key="post.title + post.content"
@@ -21,5 +21,7 @@
 </script>
 
 <style scoped>
-
+  .post-list {
+    width: 75%;
+  }
 </style>

@@ -25,13 +25,21 @@
     data() {
       return {
         isLoading: true,
+        interval: null,
       };
     },
     computed: mapGetters(['post']),
     methods: mapActions(['fetchPost']),
     async mounted() {
       await this.fetchPost(this.$route.params.id);
+
       this.isLoading = false;
+      this.interval = setInterval(() => {
+        this.fetchPost(this.$route.params.id);
+      }, 15000);
+    },
+    beforeDestroy() {
+      clearInterval(this.interval);
     },
   };
 </script>

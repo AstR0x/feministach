@@ -22,6 +22,8 @@ export default {
         body: formData,
       });
 
+      ctx.dispatch('fetchPosts');
+
       ctx.commit('updateTitle', '');
       ctx.commit('updateContent', '');
       ctx.commit('updateImages', null);

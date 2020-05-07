@@ -8,7 +8,7 @@
             <time class="time">{{new Date(comment.date).toLocaleTimeString()}}</time>
             <time class="date">{{new Date(comment.date).toLocaleDateString()}}</time>
           </div>
-          <ModalImages :images="comment.images"/>
+          <ModalImages v-if="comment.images.length" :images="comment.images"/>
           <p class="content">{{comment.content}}</p></div>
       </li>
     </ul>

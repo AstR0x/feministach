@@ -23,6 +23,8 @@ export default {
         body: formData,
       });
 
+      ctx.dispatch('fetchPost', id);
+
       ctx.commit('updateComment', '');
       ctx.commit('updateCommentImages', []);
     },

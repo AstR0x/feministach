@@ -1,11 +1,11 @@
 {
-  "name": "imageboard",
-  "version": "0.1.0",
+  "name": "feministach",
+  "version": "0.2.0",
   "private": true,
   "scripts": {
     "server": "nodemon app.js",
     "dev": "cross-env NODE_ENV=development concurrently \"npm run server\" \"npm run serve --prefix ./client \"",
-    "start": "cross-env NODE_ENV=production node app.js"
+    "start": "cross-env NODE_ENV=production nodemon app.js"
   },
   "dependencies": {
     "body-parser": "^1.19.0",
@@ -13,7 +13,8 @@
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "mongoose": "^5.8.9",
-    "multer": "^1.4.2"
+    "multer": "^1.4.2",
+    "nodemon": "^2.0.3"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.3",

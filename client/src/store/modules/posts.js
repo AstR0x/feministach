@@ -4,7 +4,10 @@ export default {
       const res = await fetch('/posts');
       const posts = await res.json();
 
-      ctx.commit('updatePosts', posts);
+      posts.sort((a, b) => a.comments.length - b.comments.length);
+      console.log(posts);
+
+      ctx.commit('updatePosts', posts.reverse());
     },
   },
   mutations: {
