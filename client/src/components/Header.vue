@@ -1,29 +1,32 @@
 <template>
   <header>
     <b-navbar class="header" toggleable="lg" type="dark" variant="danger">
-      <h1 class="heading"><b-navbar-brand href="/">FEMINISTACH</b-navbar-brand></h1>
+      <h1 class="heading">
+        <b-navbar-brand class="brand" href="/">FEMINISTACH</b-navbar-brand>
+      </h1>
       <b-navbar-nav class="ml-auto" v-if="this.$route.path === '/'">
         <b-nav-form>
           <b-form-input
             v-model="filter"
             trim
             size="m"
-            class="mr-sm-3"
+            class="search-input"
             debounce="500"
-            placeholder="Поиск">
+            placeholder="Поиск"
+            autocomplete="off">
           </b-form-input>
         </b-nav-form>
-        <b-button
-          variant="light"
-          class="button"
+        <router-link
+          class="link"
+          :to="'auth'"
         >
-          <router-link
-            class="link"
-            :to="'auth'"
+          <b-button
+            variant="light"
+            class="button"
           >
             <b-icon icon="lock"></b-icon>
-          </router-link>
-        </b-button>
+          </b-button>
+        </router-link>
       </b-navbar-nav>
     </b-navbar>
   </header>
@@ -62,10 +65,31 @@
 
   .button {
     height: 37px;
+    margin-left: 20px;
   }
 
   .link {
     color: #5a6268;
     text-decoration: none;
+  }
+
+
+  @media (max-width: 414px) {
+    .header {
+      padding: 0 15px;
+    }
+
+    .brand {
+      font-size: 18px;
+    }
+
+    .search-input {
+      width: 150px;
+      font-size: 12px;
+    }
+
+    .link {
+      display: none;
+    }
   }
 </style>

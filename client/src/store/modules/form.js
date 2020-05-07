@@ -32,11 +32,11 @@ export default {
   mutations: {
     updateTitle(state, title) {
       state.postForm.title = title;
-      state.postForm.isValidTitle = title.length ? title.length >= 6 : null;
+      state.postForm.isValidTitle = title.trim().length ? title.trim().length >= 6 : null;
     },
     updateContent(state, content) {
       state.postForm.content = content;
-      state.postForm.isValidContent = content.length ? content.length >= 16 : null;
+      state.postForm.isValidContent = content.trim().length ? content.trim().length >= 16 : null;
     },
     updateImages(state, images) {
       state.postForm.images = images;

@@ -27,7 +27,8 @@
             @input="updateTitle"
             :value="postTitle"
             :state="isValidTitle"
-            placeholder="Заголовок поста">
+            placeholder="Заголовок поста"
+            autocomplete="off">
           </b-input>
           <b-form-invalid-feedback :state="isValidTitle">
             Заголовок поста должен содержать не меньше 6 символов.
@@ -35,10 +36,12 @@
         </div>
         <div class="textarea-container">
           <b-form-textarea
+            trim
             @input="updateContent"
             :value="postContent"
             :state="isValidContent"
             placeholder="Содержание поста"
+            autocomplete="off"
             rows="3"
             max-rows="6">
           </b-form-textarea>

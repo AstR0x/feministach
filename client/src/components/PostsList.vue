@@ -24,4 +24,10 @@
   .post-list {
     width: 75%;
   }
+
+  @media (max-width: 414px) {
+    .post-list {
+      width: 100%;
+    }
+  }
 </style>

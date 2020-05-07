@@ -1,4 +1,7 @@
+const config = require('config');
 const PostModel = require('../models/Post');
+
+const SERVER_URL = config.get('SERVER_URL');
 
 class PostController {
   index(req, res) {
@@ -28,7 +31,7 @@ class PostController {
 
     const images = req.files.map(file => ({
       originalName: file.originalname,
-      url: `http://localhost:5000/images/${file.filename}`,
+      url: SERVER_URL + file.filename,
       size: file.size,
       mimetype: file.mimetype,
     }));
@@ -56,7 +59,7 @@ class PostController {
 
     const images = req.files.map(file => ({
       originalName: file.originalname,
-      url: `http://localhost:5000/images/${file.filename}`,
+      url: SERVER_URL + file.filename,
       size: file.size,
       mimetype: file.mimetype,
     }));

@@ -37,7 +37,7 @@
   }
 
   .image-container {
-    width: 35%;
+    max-width: 15%;
   }
 
   .image {
@@ -50,5 +50,11 @@
 
   .large-image {
     max-width: 100%;
+  }
+
+  @media (max-width: 414px) {
+    .image-container {
+      max-width: 30%;
+    }
   }
 </style>

@@ -15,6 +15,7 @@
     <form class="form" @submit.prevent="addComment">
       <div>
         <b-form-input
+          autocomplete="off"
           @input="updateComment"
           :value="newComment"
           type="text"
@@ -127,5 +128,33 @@
   .input-file {
     width: 54%;
     font-size: 16px;
+  }
+
+  @media (max-width: 414px) {
+    .comments-heading {
+      padding-left: 16px;
+      font-size: 22px;
+    }
+
+    .comments-container {
+      max-width: 100%
+    }
+
+    .comment {
+      width: 100%;
+    }
+
+    .date {
+      margin-left: 230px;
+    }
+
+    .form {
+      padding: 0 10px;
+      width: 100%;
+    }
+
+    .input-file {
+      width: 75%;
+    }
   }
 </style>

@@ -61,4 +61,10 @@
     margin-top: 12%;
     text-align: center;
   }
+
+  @media (max-width: 414px) {
+    .section {
+      width: 100%;
+    }
+  }
 </style>

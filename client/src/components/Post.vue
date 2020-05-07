@@ -7,21 +7,22 @@
     <div class="images-container">
       <ModalImages :images="post.images" />
     </div>
-    <div class="title-container"><h2>{{post.title}}</h2></div>
+    <div class="title-container"><h2 class="title">{{post.title}}</h2></div>
     <div class="content-container"><p>{{post.content}}</p></div>
     <div class="post-footer">
-      <b-button
-        class="submit-button"
-        variant="danger"
+      <router-link
+        class="link"
         v-if="!isOpened"
+        :to="'opened-post/' + post._id"
       >
-        <router-link
-          class="link"
-          :to="'opened-post/' + post._id"
+        <b-button
+          class="submit-button"
+          variant="danger"
+
         >
           Перейти к посту
-        </router-link>
-      </b-button>
+        </b-button>
+      </router-link>
       <span class="answer-amount">Ответов: {{post.comments.length}}</span>
     </div>
   </div>
@@ -40,7 +41,7 @@
 </script>
 <style scoped>
   .post {
-    margin: 100px auto;
+    margin: 50px auto;
     padding: 30px;
     box-shadow: rgba(0, 0, 0, 0.2) 0 3px 3px -2px,
     rgba(0, 0, 0, 0.14) 0 3px 4px 0,
@@ -62,7 +63,7 @@
   }
 
   .images-container {
-    width: 40%;
+    width: 80%;
   }
 
   .title-container {
@@ -88,5 +89,23 @@
   .link {
     color: #fff;
     text-decoration: none;
+  }
+
+  @media (max-width: 414px) {
+    .time {
+      font-size: 16px;
+    }
+
+    .date {
+      font-size: 16px;
+    }
+
+    .title {
+      font-size: 22px;
+    }
+
+    .images-container {
+      width: 100%;
+    }
   }
 </style>

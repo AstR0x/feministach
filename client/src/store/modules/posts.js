@@ -5,7 +5,6 @@ export default {
       const posts = await res.json();
 
       posts.sort((a, b) => a.comments.length - b.comments.length);
-      console.log(posts);
 
       ctx.commit('updatePosts', posts.reverse());
     },
