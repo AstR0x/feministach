@@ -154,7 +154,7 @@
     }
 
     .input-file {
-      width: 75%;
+      width: 60%;
     }
   }
 </style>

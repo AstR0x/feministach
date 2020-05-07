@@ -31,7 +31,7 @@ class PostController {
 
     const images = req.files.map(file => ({
       originalName: file.originalname,
-      url: SERVER_URL + file.filename,
+      url: `${SERVER_URL}images/${file.filename}`,
       size: file.size,
       mimetype: file.mimetype,
     }));
@@ -59,7 +59,7 @@ class PostController {
 
     const images = req.files.map(file => ({
       originalName: file.originalname,
-      url: SERVER_URL + file.filename,
+      url: `${SERVER_URL}images/${file.filename}`,
       size: file.size,
       mimetype: file.mimetype,
     }));
