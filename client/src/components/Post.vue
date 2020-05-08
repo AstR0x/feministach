@@ -104,6 +104,10 @@
       font-size: 22px;
     }
 
+    .content-container {
+      width: 100%;
+    }
+
     .images-container {
       width: 100%;
     }

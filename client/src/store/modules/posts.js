@@ -4,29 +4,45 @@ export default {
       const res = await fetch('/posts');
       const posts = await res.json();
 
-      posts.sort((a, b) => a.comments.length - b.comments.length);
-
       ctx.commit('updatePosts', posts.reverse());
     },
   },
   mutations: {
-    updatePosts(state, posts) {
-      state.allPosts = posts;
-      state.filteredPosts = posts;
+    updatePosts(state, originalPosts) {
+      state.originalPosts = originalPosts;
+
+      const posts = originalPosts.filter(post => (
+        post.title
+          .toLowerCase()
+          .match(state.filter)
+        || post.content
+          .toLowerCase()
+          .match(state.filter)));
+
+      if (state.isFilteredByAmountOfComments) {
+        posts.sort((a, b) => (b.comments.length - a.comments.length));
+      }
+
+      state.posts = posts;
     },
-    filterPosts(state, filter) {
-      state.filteredPosts = state.allPosts.filter(
-        ({ title, content }) => title.includes(filter) || content.includes(filter),
-      );
+    updateFilter(state, filter) {
+      state.filter = filter.toLowerCase().trim();
+      this.commit('updatePosts', state.originalPosts);
+    },
+    toggleSorting(state) {
+      state.isFilteredByAmountOfComments = !state.isFilteredByAmountOfComments;
+      this.commit('updatePosts', state.originalPosts);
     },
   },
   state: {
-    allPosts: [],
-    filteredPosts: [],
+    posts: [],
+    originalPosts: [],
+    filter: '',
+    isFilteredByAmountOfComments: false,
   },
   getters: {
-    posts({ filteredPosts }) {
-      return filteredPosts;
+    posts({ posts }) {
+      return posts;
     },
   },
 };

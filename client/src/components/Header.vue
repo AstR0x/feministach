@@ -16,6 +16,16 @@
             autocomplete="off">
           </b-form-input>
         </b-nav-form>
+        <b-button
+          class="button sort-button"
+          variant="light"
+          @click="toggleSorting"
+          id="tooltip-target-1">
+          <b-icon icon="filter"></b-icon>
+        </b-button>
+        <b-tooltip target="tooltip-target-1" triggers="hover">
+          Сортировка постов по дате или по количеству ответов
+        </b-tooltip>
         <router-link
           class="link"
           :to="'auth'"
@@ -44,10 +54,10 @@
     },
     watch: {
       filter(value) {
-        return this.filterPosts(value);
+        return this.updateFilter(value);
       },
     },
-    methods: mapMutations(['filterPosts']),
+    methods: mapMutations(['updateFilter', 'toggleSorting']),
   };
 </script>
 
@@ -86,6 +96,10 @@
     .search-input {
       width: 150px;
       font-size: 12px;
+    }
+
+    .sort-button {
+      display: none;
     }
 
     .link {
