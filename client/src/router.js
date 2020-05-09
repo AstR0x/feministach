@@ -15,7 +15,7 @@ export default new Router({
       component: AllPosts,
     },
     {
-      path: '/opened-post/:id',
+      path: '/opened/post/:id',
       component: OpenedPost,
     },
     {

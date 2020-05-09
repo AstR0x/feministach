@@ -13,7 +13,7 @@
       <router-link
         class="link"
         v-if="!isOpened"
-        :to="'opened-post/' + post._id"
+        :to="'opened/post/' + post._id"
       >
         <b-button
           class="submit-button"
