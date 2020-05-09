@@ -114,7 +114,7 @@
 
   .content {
     margin-top: 20px;
-    white-space: pre;
+    white-space: pre-wrap;
   }
 
   .form {
