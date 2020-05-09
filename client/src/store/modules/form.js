@@ -6,11 +6,11 @@ export default {
       const {
         title,
         content,
-        images,
+        files,
       } = ctx.state.postForm;
 
-      images.forEach((image) => {
-        formData.append('images', image);
+      files.forEach((file) => {
+        formData.append('files', file);
       });
 
       formData.append('title', title);
@@ -26,7 +26,7 @@ export default {
 
       ctx.commit('updateTitle', '');
       ctx.commit('updateContent', '');
-      ctx.commit('updateImages', null);
+      ctx.commit('updateFiles', null);
     },
   },
   mutations: {
@@ -38,17 +38,17 @@ export default {
       state.postForm.content = content;
       state.postForm.isValidContent = content.trim().length ? content.trim().length >= 16 : null;
     },
-    updateImages(state, images) {
-      state.postForm.images = images;
-      state.postForm.isValidImages = Boolean(images) || null;
+    updateFiles(state, files) {
+      state.postForm.files = files;
+      state.postForm.isValidFiles = (Boolean(files) && files.length <= 5) || null;
     },
     clearAll(state) {
       state.postForm.title = '';
       state.postForm.content = '';
-      state.postForm.images = null;
+      state.postForm.files = null;
       state.postForm.isValidTitle = null;
       state.postForm.isValidContent = null;
-      state.postForm.isValidImages = null;
+      state.postForm.isValidFiles = null;
     },
   },
   state: {
@@ -57,8 +57,8 @@ export default {
       content: '',
       isValidTitle: null,
       isValidContent: null,
-      isValidImages: null,
-      images: null,
+      isValidFiles: null,
+      files: null,
     },
   },
   getters: {
@@ -68,8 +68,8 @@ export default {
     postContent(state) {
       return state.postForm.content;
     },
-    postImages(state) {
-      return state.postForm.images;
+    postFiles(state) {
+      return state.postForm.files;
     },
     isValidTitle(state) {
       return state.postForm.isValidTitle;
@@ -77,8 +77,8 @@ export default {
     isValidContent(state) {
       return state.postForm.isValidContent;
     },
-    isValidImages(state) {
-      return state.postForm.isValidImages;
+    isValidFiles(state) {
+      return state.postForm.isValidFiles;
     },
     isDisabled(state) {
       return state.postForm.isDisabled;

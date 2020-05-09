@@ -4,8 +4,12 @@
       <time class="time">{{new Date(post.date).toLocaleTimeString()}}</time>
       <time class="date">{{new Date(post.date).toLocaleDateString()}}</time>
     </div>
-    <div class="images-container">
-      <ModalImages :images="post.images" />
+    <div class="attached-files">
+      <Modal
+        v-for="file in [...post.images, ...post.videos]"
+        :url="file.url"
+        :fileType="file.fileType"
+        :key="file.url" />
     </div>
     <div class="title-container"><h2 class="title">{{post.title}}</h2></div>
     <div class="content-container"><p>{{post.content}}</p></div>
@@ -29,13 +33,13 @@
 </template>
 
 <script>
-  import ModalImages from './ModalImages.vue';
+  import Modal from './Modal.vue';
 
   export default {
     name: 'Post',
     props: ['post', 'isOpened'],
     components: {
-      ModalImages,
+      Modal,
     },
   };
 </script>
@@ -62,8 +66,11 @@
     font-size: 22px;
   }
 
-  .images-container {
-    width: 80%;
+  .attached-files {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 20px;
   }
 
   .title-container {
@@ -106,10 +113,6 @@
     }
 
     .content-container {
-      width: 100%;
-    }
-
-    .images-container {
       width: 100%;
     }
   }

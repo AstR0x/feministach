@@ -9,10 +9,10 @@ export default {
     async addComment(ctx, id) {
       const formData = new FormData();
       const newComment = ctx.state.openedPost.newComment;
-      const images = ctx.state.openedPost.commentImages;
+      const files = ctx.state.openedPost.commentFiles;
 
-      images.forEach((image) => {
-        formData.append('images', image);
+      files.forEach((file) => {
+        formData.append('files', file);
       });
 
       formData.append('newComment', newComment);
@@ -26,7 +26,7 @@ export default {
       ctx.dispatch('fetchPost', id);
 
       ctx.commit('updateComment', '');
-      ctx.commit('updateCommentImages', []);
+      ctx.commit('updateCommentFiles', []);
     },
   },
   mutations: {
@@ -36,17 +36,17 @@ export default {
     updateComment(state, newComment) {
       state.openedPost.newComment = newComment;
     },
-    updateCommentImages(state, commentImages) {
-      state.openedPost.commentImages = commentImages;
-      state.openedPost.isValidCommentImages = Boolean(commentImages.length) || null;
+    updateCommentFiles(state, commentFiles) {
+      state.openedPost.commentFiles = commentFiles;
+      state.openedPost.isValidCommentFiles = commentFiles.length ? commentFiles.length <= 5 : null;
     },
   },
   state: {
     openedPost: {
       newComment: '',
       post: null,
-      commentImages: [],
-      isValidCommentImages: null,
+      commentFiles: [],
+      isValidCommentFiles: null,
     },
   },
   getters: {
@@ -56,14 +56,15 @@ export default {
     newComment(state) {
       return state.openedPost.newComment;
     },
-    commentImages(state) {
-      return state.openedPost.commentImages;
+    commentFiles(state) {
+      return state.openedPost.commentFiles;
     },
-    isValidCommentImages(state) {
-      return state.openedPost.isValidCommentImages;
+    isValidCommentFiles(state) {
+      return state.openedPost.isValidCommentFiles;
     },
     isValidFormData(state) {
-      return state.openedPost.isValidCommentImages || state.openedPost.newComment.trim();
+      return (state.openedPost.isValidCommentFiles || state.openedPost.newComment.trim())
+        && state.openedPost.commentFiles.length <= 5;
     },
   },
 };

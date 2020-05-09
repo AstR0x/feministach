@@ -8,7 +8,13 @@
             <time class="time">{{new Date(comment.date).toLocaleTimeString()}}</time>
             <time class="date">{{new Date(comment.date).toLocaleDateString()}}</time>
           </div>
-          <ModalImages v-if="comment.images.length" :images="comment.images"/>
+          <div class="attached-files">
+            <Modal
+              v-for="file in comment.images.concat(comment.videos)"
+              :url="file.url"
+              :file-type="file.fileType"
+              :key="file.url" />
+          </div>
           <p class="content">{{comment.content}}</p></div>
       </li>
     </ul>
@@ -26,15 +32,16 @@
       </div>
       <div class="file-input-button-container">
         <b-form-file
-          @input="updateCommentImages"
-          :value="commentImages"
-          :state="isValidCommentImages"
+          @input="updateCommentFiles"
+          :value="commentFiles"
+          :state="isValidCommentFiles"
           class="input-file"
           multiple
-          accept=".png, .jpg, .jpeg"
+          accept=".png, .jpg, .jpeg, .mp4, .webm"
           placeholder="Выберите изображения"
           drop-placeholder="Поместите изображения сюда"
           browse-text="Выбрать"
+          :file-name-formatter="fileNameFormatter"
         ></b-form-file>
         <b-button
           class="submit-button"
@@ -52,19 +59,22 @@
 <script>
   import { mapMutations, mapGetters } from 'vuex';
 
-  import ModalImages from './ModalImages.vue';
+  import Modal from './Modal.vue';
 
   export default {
     name: 'Comments',
     props: ['comments'],
     components: {
-      ModalImages,
+      Modal,
     },
-    computed: mapGetters(['newComment', 'commentImages', 'isValidCommentImages', 'isValidFormData']),
+    computed: mapGetters(['newComment', 'commentFiles', 'isValidCommentFiles', 'isValidFormData']),
     methods: {
-      ...mapMutations(['updateComment', 'updateCommentImages']),
+      ...mapMutations(['updateComment', 'updateCommentFiles']),
       addComment() {
         this.$store.dispatch('addComment', this.$route.params.id);
+      },
+      fileNameFormatter() {
+        return 'Файлы выбраны';
       },
     },
   };
@@ -111,6 +121,10 @@
   .date {
     margin-left: 250px;
     font-size: 12px;
+  }
+
+  .attached-files {
+    display: flex;
   }
 
   .content {

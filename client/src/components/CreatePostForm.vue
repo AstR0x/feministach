@@ -9,7 +9,7 @@
     <b-modal
       @ok="createPost"
       @hidden="clearAll"
-      :ok-disabled="!(isValidTitle && isValidContent && isValidImages)"
+      :ok-disabled="!(isValidTitle && isValidContent && isValidFiles)"
       ok-title="Создать"
       ok-variant="danger"
       ok-only
@@ -51,13 +51,13 @@
         </div>
         <div class="input-file-container">
           <b-form-file
-            @input="updateImages"
-            :value="postImages"
-            :state="isValidImages"
+            @input="updateFiles"
+            :value="postFiles"
+            :state="isValidFiles"
             class="input-file"
             multiple
-            accept=".png, .jpg, .jpeg"
-            placeholder="Выберите одно или несколько изображений"
+            accept=".png, .jpg, .jpeg, .mp4, .webm"
+            placeholder="Прикрепите изображения или видео"
             drop-placeholder="Поместите изображение сюда"
             browse-text="Выбрать файлы"
           ></b-form-file>
@@ -75,16 +75,16 @@
     computed: mapGetters([
       'postTitle',
       'postContent',
-      'postImages',
+      'postFiles',
       'isValidTitle',
       'isValidContent',
-      'isValidImages',
+      'isValidFiles',
     ]),
     methods: {
       ...mapMutations([
         'updateTitle',
         'updateContent',
-        'updateImages',
+        'updateFiles',
         'clearAll',
       ]),
       ...mapActions(['createPost']),

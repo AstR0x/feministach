@@ -29,12 +29,15 @@ class PostController {
   update(req, res) {
     const { newComment } = req.body;
 
-    const images = req.files.map(file => ({
+    const files = req.files.map(file => ({
       originalName: file.originalname,
-      url: `${SERVER_URL}images/${file.filename}`,
+      url: `${SERVER_URL}attached/files/${file.filename}`,
       size: file.size,
-      mimetype: file.mimetype,
+      fileType: file.mimetype.match(/image/) ? 'image' : 'video',
     }));
+
+    const images = files.filter(file => file.fileType === 'image');
+    const videos = files.filter(file => file.fileType === 'video');
 
     PostModel.findOne({ _id: req.params.id })
       .then(post => {
@@ -42,6 +45,7 @@ class PostController {
         comments.push({
           content: newComment,
           images,
+          videos,
         });
 
         PostModel.findByIdAndUpdate(req.params.id, { $set: { comments } }, err => {
@@ -57,17 +61,21 @@ class PostController {
   create(req, res) {
     const { title, content } = req.body;
 
-    const images = req.files.map(file => ({
+    const files = req.files.map(file => ({
       originalName: file.originalname,
-      url: `${SERVER_URL}images/${file.filename}`,
+      url: `${SERVER_URL}attached/files/${file.filename}`,
       size: file.size,
-      mimetype: file.mimetype,
+      fileType: file.mimetype.match(/image/) ? 'image' : 'video',
     }));
+
+    const images = files.filter(file => file.fileType === 'image');
+    const videos = files.filter(file => file.fileType === 'video');
 
     const post = new PostModel({
       title,
       content,
       images,
+      videos,
     });
 
     post.save()

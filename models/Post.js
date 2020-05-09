@@ -12,16 +12,28 @@ const postSchema = new Schema({
   images: [{
     originalName: String,
     url: String,
-    mimeType: String,
     size: String,
+    fileType: String,
+  }],
+  videos: [{
+    originalName: String,
+    url: String,
+    size: String,
+    fileType: String,
   }],
   comments: [{
     content: String,
     images: [{
       originalName: String,
       url: String,
-      mimeType: String,
       size: String,
+      fileType: String,
+    }],
+    videos: [{
+      originalName: String,
+      url: String,
+      size: String,
+      fileType: String,
     }],
     date: {
       type: Date,
