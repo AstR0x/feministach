@@ -13,12 +13,14 @@
       </li>
     </ul>
     <form class="form" @submit.prevent="addComment">
-      <div>
-        <b-form-input
-          autocomplete="off"
+      <div class="textarea-container">
+        <b-form-textarea
           @input="updateComment"
           :value="newComment"
           type="text"
+          rows="1"
+          max-rows="3"
+          autocomplete="off"
           placeholder="Новый комментарий"
         />
       </div>
@@ -112,6 +114,7 @@
 
   .content {
     margin-top: 20px;
+    white-space: pre;
   }
 
   .form {
@@ -126,7 +129,7 @@
   }
 
   .input-file {
-    width: 54%;
+    width: 60%;
     font-size: 16px;
   }
 
@@ -154,6 +157,7 @@
     }
 
     .input-file {
+      font-size: 12px;
       width: 60%;
     }
   }

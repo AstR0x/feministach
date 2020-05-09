@@ -74,6 +74,7 @@
     width: 60%;
     margin-top: 18px;
     font-size: 16px;
+    white-space: pre;
   }
 
   .post-footer {
