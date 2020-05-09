@@ -57,7 +57,6 @@
             class="input-file"
             multiple
             accept=".png, .jpg, .jpeg"
-
             placeholder="Выберите одно или несколько изображений"
             drop-placeholder="Поместите изображение сюда"
             browse-text="Выбрать файлы"

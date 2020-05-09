@@ -62,5 +62,8 @@ export default {
     isValidCommentImages(state) {
       return state.openedPost.isValidCommentImages;
     },
+    isValidFormData(state) {
+      return state.openedPost.isValidCommentImages || state.openedPost.newComment.trim();
+    },
   },
 };

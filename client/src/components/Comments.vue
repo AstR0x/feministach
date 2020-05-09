@@ -40,6 +40,7 @@
           class="submit-button"
           type="submit"
           variant="danger"
+          :disabled="!isValidFormData"
         >
           Ответить
         </b-button>
@@ -59,7 +60,7 @@
     components: {
       ModalImages,
     },
-    computed: mapGetters(['newComment', 'commentImages', 'isValidCommentImages']),
+    computed: mapGetters(['newComment', 'commentImages', 'isValidCommentImages', 'isValidFormData']),
     methods: {
       ...mapMutations(['updateComment', 'updateCommentImages']),
       addComment() {
