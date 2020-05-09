@@ -26,17 +26,6 @@
         <b-tooltip target="tooltip-target-1" triggers="hover">
           Сортировка постов по дате или по количеству ответов
         </b-tooltip>
-        <router-link
-          class="link"
-          :to="'auth'"
-        >
-          <b-button
-            variant="light"
-            class="button"
-          >
-            <b-icon icon="lock"></b-icon>
-          </b-button>
-        </router-link>
       </b-navbar-nav>
     </b-navbar>
   </header>
@@ -78,12 +67,6 @@
     margin-left: 20px;
   }
 
-  .link {
-    color: #5a6268;
-    text-decoration: none;
-  }
-
-
   @media (max-width: 414px) {
     .header {
       padding: 0 15px;
@@ -99,10 +82,6 @@
     }
 
     .sort-button {
-      display: none;
-    }
-
-    .link {
       display: none;
     }
   }
