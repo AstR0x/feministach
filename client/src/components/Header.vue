@@ -5,9 +5,10 @@
         <b-navbar-brand class="brand" href="/">FEMINISTACH</b-navbar-brand>
       </h1>
       <b-navbar-nav class="ml-auto" v-if="this.$route.path === '/'">
-        <b-nav-form>
+        <b-nav-form @submit.prevent>
           <b-form-input
             v-model="filter"
+            type="text"
             trim
             size="m"
             class="search-input"
