@@ -7,12 +7,13 @@
         class="item"
         alt="image" />
       <b-modal
+        :size="sizes[index]"
         :id="url"
-        size="md"
         centered
         hide-header
-        hide-footer>
-        <div class="large-item-container">
+        hide-footer
+        content-class="content">
+        <div @wheel="scroll">
           <img
             :src="url"
             class="large-item"
@@ -26,18 +27,19 @@
         v-b-modal="url"
         class="item video" />
       <b-modal
+        :size="sizes[index]"
         :id="url"
-        size="sm"
         centered
         hide-header
-        hide-footer>
-        <div class="large-item-container">
+        hide-footer
+        content-class="content">
+        <div @wheel="scroll">
           <video
-            class="large-video"
+            class="large-item"
             autoplay
             controls
             :src="url"
-             />
+          />
         </div>
       </b-modal>
     </div>
@@ -48,6 +50,21 @@
   export default {
     name: 'Modal',
     props: ['url', 'fileType'],
+    data() {
+      return {
+        sizes: ['sm', 'md', 'lg', 'xl'],
+        index: 0,
+      };
+    },
+    methods: {
+      scroll(event) {
+        if (event.deltaY < 0 && this.index < 3) {
+          this.index += 1;
+        } else if (event.deltaY > 0 && this.index > 0) {
+          this.index -= 1;
+        }
+      },
+    },
   };
 </script>
 
@@ -62,16 +79,14 @@
     border: 1px dashed;
   }
 
-  .large-item-container {
+  /deep/ .content {
+    background: transparent;
     text-align: center;
+    border: none;
   }
 
   .large-item {
-    max-width: 100%;
-  }
-
-  .large-video {
-    max-width: 100%;
+    width: 100%;
   }
 
   @media (max-width: 414px) {
@@ -79,6 +94,10 @@
       max-height: 120px;
       max-width: 150px;
       margin: 10px 10px 0 0;
+    }
+
+    /deep/ .content {
+      background-color: #fff;
     }
   }
 </style>

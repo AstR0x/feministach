@@ -125,6 +125,7 @@
 
   .attached-files {
     display: flex;
+    flex-wrap: wrap;
   }
 
   .content {
