@@ -13,8 +13,8 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use('/attached/files', express.static(path.resolve(__dirname, '../', 'uploads')));
 
+app.use('/attached/files', express.static(path.resolve(__dirname, '../', 'uploads')));
 app.use('/posts', postRouter);
 app.use('/auth', authRouter);
 
@@ -28,12 +28,13 @@ const start = async () => {
       useUnifiedTopology: true,
       useCreateIndex: true,
     });
+    mongoose.set('useFindAndModify', false);
     app.listen(PORT, () => {
       console.log(`Server has been started on ${PORT}!`);
     });
   } catch (e) {
     console.log('Server error', e.measure);
-    process.exitCode(1);
+    process.exit(1);
   }
 };
 

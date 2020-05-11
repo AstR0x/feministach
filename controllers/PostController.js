@@ -1,87 +1,74 @@
-const config = require('config');
+const getAttachedFilesInfo = require('../utils/getAttachedFilesInfo');
 const PostModel = require('../models/Post');
 
-const SERVER_URL = config.get('SERVER_URL');
-
 class PostController {
-  index(req, res) {
-    PostModel.find()
-      .then((posts, err) => {
-        if (err) {
-          res.send(err);
-        }
-
-        res.json(posts);
-      });
+  async index(req, res) {
+    try {
+      const posts = await PostModel.find();
+      await res.json(posts);
+    } catch (e) {
+      console.error('\nERROR: Произошла ошибка при поиске постов');
+      console.error(e);
+      await res.status(500).send({ error: 'Произошла ошибка при поиске постов' });
+    }
   }
 
-  read(req, res) {
-    PostModel.findOne({ _id: req.params.id })
-      .then(post => {
-        if (!post) {
-          res.send({ error: 'Not found' });
-        } else {
-          res.json(post);
-        }
-      });
+  async read(req, res) {
+    try {
+      const post = await PostModel.findOne({ _id: req.params.id });
+
+      await res.json(post);
+    } catch (e) {
+      console.error('\nERROR: Произошла ошибка при поиске поста');
+      console.error(e);
+
+      await res.status(500).send({ error: 'Произошла ошибка при поиске поста' });
+    }
   }
 
-  update(req, res) {
-    const { newComment } = req.body;
+  async update(req, res) {
+    try {
+      const { newComment } = req.body;
 
-    const files = req.files.map(file => ({
-      originalName: file.originalname,
-      url: `${SERVER_URL}attached/files/${file.filename}`,
-      size: file.size,
-      fileType: file.mimetype.match(/image/) ? 'image' : 'video',
-    }));
+      const { images, videos } = getAttachedFilesInfo(req.files);
 
-    const images = files.filter(file => file.fileType === 'image');
-    const videos = files.filter(file => file.fileType === 'video');
+      const post = await PostModel.findOne({ _id: req.params.id });
 
-    PostModel.findOne({ _id: req.params.id })
-      .then(post => {
-        const comments = post.comments;
-        comments.push({
-          content: newComment,
-          images,
-          videos,
-        });
+      post.comments.push({ content: newComment, images, videos });
 
-        PostModel.findByIdAndUpdate(req.params.id, { $set: { comments } }, err => {
-          if (err) {
-            res.send(err);
-          }
+      await post.save();
 
-          res.json({ status: 'updated' });
-        });
-      });
+      await res.json({ status: 'updated' });
+    } catch (e) {
+      console.error('\nERROR: Произошла ошибка при добавлении комментария');
+      console.error(e);
+
+      await res.status(500).send({ error: 'Произошла ошибка при добавлении комментария' });
+    }
   }
 
-  create(req, res) {
-    const { title, content } = req.body;
+  async create(req, res) {
+    try {
+      const { title, content } = req.body;
 
-    const files = req.files.map(file => ({
-      originalName: file.originalname,
-      url: `${SERVER_URL}attached/files/${file.filename}`,
-      size: file.size,
-      fileType: file.mimetype.match(/image/) ? 'image' : 'video',
-    }));
+      const { images, videos } = getAttachedFilesInfo(req.files);
 
-    const images = files.filter(file => file.fileType === 'image');
-    const videos = files.filter(file => file.fileType === 'video');
-
-    const post = new PostModel({
-      title,
-      content,
-      images,
-      videos,
-    });
-
-    post.save()
-      .then(() => {
-        res.json({ status: 'ok' });
+      const post = new PostModel({
+        title,
+        content,
+        images,
+        videos,
       });
+
+      const createdPost = await post.save();
+
+      res.send({ postURL: `/opened/post/${createdPost._id}` });
+    } catch (e) {
+      console.error('\nERROR: Произошла ошибка при создании поста');
+      console.error(e);
+
+      res.status(500).send({ error: 'Произошла ошибка при создании поста' });
+    }
   }
 }
 

@@ -3,7 +3,6 @@ export default {
     async fetchPosts(ctx) {
       const res = await fetch('/posts');
       const posts = await res.json();
-
       ctx.commit('updatePosts', posts.reverse());
     },
   },
@@ -26,7 +25,8 @@ export default {
       state.posts = posts;
     },
     updateFilter(state, filter) {
-      state.filter = filter.toLowerCase().trim();
+      state.filter = filter.toLowerCase()
+        .trim();
       this.commit('updatePosts', state.originalPosts);
     },
     toggleSorting(state) {

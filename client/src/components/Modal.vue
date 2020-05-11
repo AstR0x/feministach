@@ -13,7 +13,7 @@
         hide-header
         hide-footer
         content-class="content">
-        <div @wheel="scroll">
+        <div @wheel="handleWheel">
           <img
             :src="url"
             class="large-item"
@@ -33,7 +33,7 @@
         hide-header
         hide-footer
         content-class="content">
-        <div @wheel="scroll">
+        <div @wheel="handleWheel">
           <video
             class="large-item"
             autoplay
@@ -57,7 +57,7 @@
       };
     },
     methods: {
-      scroll(event) {
+      handleWheel(event) {
         if (event.deltaY < 0 && this.index < 3) {
           this.index += 1;
         } else if (event.deltaY > 0 && this.index > 0) {

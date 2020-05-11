@@ -1,3 +1,5 @@
+import router from '../../router';
+
 export default {
   actions: {
     async createPost(ctx) {
@@ -16,13 +18,15 @@ export default {
       formData.append('title', title);
       formData.append('content', content);
 
-      await fetch('/posts', {
+      const response = await fetch('/posts', {
         method: 'POST',
         mode: 'cors',
         body: formData,
       });
 
-      ctx.dispatch('fetchPosts');
+      const data = await response.json();
+
+      await router.push(data.postURL);
 
       ctx.commit('updateTitle', '');
       ctx.commit('updateContent', '');

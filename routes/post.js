@@ -1,6 +1,6 @@
 const { Router } = require('express');
 
-const upload = require('../utils/upload');
+const upload = require('../middleware/upload');
 const PostController = require('../controllers/PostController');
 
 const router = Router();
