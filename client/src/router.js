@@ -4,6 +4,7 @@ import Router from 'vue-router';
 import AllPosts from './pages/AllPosts.vue';
 import OpenedPost from './pages/OpenedPost.vue';
 import Auth from './pages/Auth.vue';
+import NotFound from './pages/NotFound.vue';
 
 Vue.use(Router);
 
@@ -21,6 +22,10 @@ export default new Router({
     {
       path: '/auth',
       component: Auth,
+    },
+    {
+      path: '*',
+      component: NotFound,
     },
   ],
 });

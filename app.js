@@ -14,6 +14,7 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+
 app.use('/attached/files', express.static(path.resolve(__dirname, '../', 'uploads')));
 app.use('/posts', postRouter);
 app.use('/auth', authRouter);

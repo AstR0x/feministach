@@ -3,6 +3,8 @@ import router from '../../router';
 export default {
   actions: {
     async createPost(ctx) {
+      ctx.commit('updateIsLoading', true);
+
       const formData = new FormData();
 
       const {
@@ -24,13 +26,16 @@ export default {
         body: formData,
       });
 
-      const data = await response.json();
 
-      await router.push(data.postURL);
+      if (response.ok) {
+        const data = await response.json();
+        await router.push(data.postURL);
 
-      ctx.commit('updateTitle', '');
-      ctx.commit('updateContent', '');
-      ctx.commit('updateFiles', null);
+        ctx.commit('updateIsLoading', false);
+        ctx.commit('updateTitle', '');
+        ctx.commit('updateContent', '');
+        ctx.commit('updateFiles', null);
+      }
     },
   },
   mutations: {
@@ -45,6 +50,9 @@ export default {
     updateFiles(state, files) {
       state.postForm.files = files;
       state.postForm.isValidFiles = (Boolean(files) && files.length <= 5) || null;
+    },
+    updateIsLoading(state, isLoading) {
+      state.postForm.isLoading = isLoading;
     },
     clearAll(state) {
       state.postForm.title = '';
@@ -63,6 +71,7 @@ export default {
       isValidContent: null,
       isValidFiles: null,
       files: null,
+      isLoading: false,
     },
   },
   getters: {
@@ -86,6 +95,9 @@ export default {
     },
     isDisabled(state) {
       return state.postForm.isDisabled;
+    },
+    isLoading(state) {
+      return state.postForm.isLoading;
     },
   },
 };

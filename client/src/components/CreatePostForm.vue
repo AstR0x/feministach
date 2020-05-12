@@ -7,18 +7,18 @@
     > Создать пост
     </b-button>
     <b-modal
-      @ok="createPost"
+      @ok.prevent="createPost"
       @hidden="clearAll"
-      :ok-disabled="!(isValidTitle && isValidContent && isValidFiles)"
+      :ok-disabled="!(isValidTitle && isValidContent && isValidFiles) || isLoading"
       ok-title="Создать"
       ok-variant="danger"
       ok-only
       id="openForm"
-      size="m"
+      size="md"
       centered
       hide-header
     >
-      <b-form
+      <b-form v-if="!isLoading"
         class="form"
         @submit.prevent="onSubmit"
       >
@@ -63,6 +63,9 @@
           ></b-form-file>
         </div>
       </b-form>
+      <div v-if="isLoading" class="loader">
+        <b-spinner variant="danger" label="Spinning"></b-spinner>
+      </div>
     </b-modal>
   </div>
 </template>
@@ -79,6 +82,7 @@
       'isValidTitle',
       'isValidContent',
       'isValidFiles',
+      'isLoading',
     ]),
     methods: {
       ...mapMutations([
@@ -93,6 +97,10 @@
 </script>
 
 <style scoped>
+  .modal {
+    width: 300px;
+    height: 300px;
+  }
   .form-container {
     margin-top: 100px;
     text-align: center;
@@ -123,5 +131,10 @@
   .submit-button-container {
     margin-top: 30px;
     text-align: right;
+  }
+
+  .loader {
+    margin: 86px 0 95px 0;
+    text-align: center;
   }
 </style>
