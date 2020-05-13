@@ -1,34 +1,25 @@
 <template>
   <div>
-    <div v-if="fileType === 'image'">
-      <img
-        :src="url"
-        v-b-modal="url"
-        class="item"
-        alt="image" />
+    <div v-if="modalType === 'image'">
       <b-modal
         :size="sizes[index]"
-        :id="url"
+        id="ory"
         centered
         hide-header
         hide-footer
         content-class="content">
         <div @wheel="handleWheel">
           <img
-            :src="url"
+            :src="modalUrl"
             class="large-item"
             alt="image" />
         </div>
       </b-modal>
     </div>
     <div v-else>
-      <video
-        :src="url"
-        v-b-modal="url"
-        class="item video" />
       <b-modal
         :size="sizes[index]"
-        :id="url"
+        id="ory"
         centered
         hide-header
         hide-footer
@@ -38,7 +29,7 @@
             class="large-item"
             autoplay
             controls
-            :src="url"
+            :src="modalUrl"
           />
         </div>
       </b-modal>
@@ -47,14 +38,24 @@
 </template>
 
 <script>
+  import { mapGetters } from 'vuex';
+
   export default {
     name: 'Modal',
-    props: ['url', 'fileType'],
+    computed: mapGetters([
+      'modalType',
+      'modalUrl',
+    ]),
     data() {
       return {
         sizes: ['sm', 'md', 'lg', 'xl'],
         index: 0,
       };
+    },
+    watch: {
+      modalUrl() {
+        this.index = 0;
+      },
     },
     methods: {
       handleWheel(event) {
@@ -69,16 +70,6 @@
 </script>
 
 <style scoped>
-  .item {
-    max-height: 150px;
-    max-width: 200px;
-    margin: 10px 30px 0 0;
-  }
-
-  .video {
-    border: 1px dashed;
-  }
-
   /deep/ .content {
     background: transparent;
     text-align: center;
@@ -90,12 +81,6 @@
   }
 
   @media (max-width: 414px) {
-    .item {
-      max-height: 120px;
-      max-width: 150px;
-      margin: 10px 10px 0 0;
-    }
-
     /deep/ .content {
       background-color: #fff;
     }

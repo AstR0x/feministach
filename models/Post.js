@@ -1,5 +1,25 @@
 const { Schema, model } = require('mongoose');
 
+const images = [{
+  originalName: String,
+  url: String,
+  size: String,
+  fileType: String,
+}];
+
+const videos = [{
+  originalName: String,
+  url: String,
+  size: String,
+  fileType: String,
+  posterUrl: String,
+}];
+
+const date = {
+  type: Date,
+  default: Date,
+};
+
 const postSchema = new Schema({
   title: {
     type: String,
@@ -9,41 +29,15 @@ const postSchema = new Schema({
     type: String,
     required: true,
   },
-  images: [{
-    originalName: String,
-    url: String,
-    size: String,
-    fileType: String,
-  }],
-  videos: [{
-    originalName: String,
-    url: String,
-    size: String,
-    fileType: String,
-  }],
+  images,
+  videos,
   comments: [{
     content: String,
-    images: [{
-      originalName: String,
-      url: String,
-      size: String,
-      fileType: String,
-    }],
-    videos: [{
-      originalName: String,
-      url: String,
-      size: String,
-      fileType: String,
-    }],
-    date: {
-      type: Date,
-      default: Date,
-    },
+    images,
+    videos,
+    date,
   }],
-  date: {
-    type: Date,
-    default: Date,
-  },
+  date,
 });
 
 const PostModel = model('Post', postSchema);

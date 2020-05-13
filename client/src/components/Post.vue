@@ -5,11 +5,22 @@
       <time class="date">{{new Date(post.date).toLocaleDateString()}}</time>
     </div>
     <div class="attached-files">
-      <Modal
-        v-for="file in [...post.images, ...post.videos]"
-        :url="file.url"
-        :fileType="file.fileType"
-        :key="file.url" />
+      <div>
+        <img
+          class="image video-poster"
+          v-for="file in post.videos"
+          :src="file.posterUrl"
+          @click="handleClick(file.url, file.fileType)"
+          :key="file.url"
+          alt="image" />
+        <img
+          class="image"
+          v-for="file in post.images"
+          :src="file.url"
+          @click="handleClick(file.url, file.fileType)"
+          :key="file.url"
+          alt="image" />
+      </div>
     </div>
     <div class="title-container"><h2 class="title">{{post.title}}</h2></div>
     <div class="content-container"><p>{{post.content}}</p></div>
@@ -33,13 +44,17 @@
 </template>
 
 <script>
-  import Modal from './Modal.vue';
-
   export default {
     name: 'Post',
     props: ['post', 'isOpened'],
-    components: {
-      Modal,
+    methods: {
+      handleClick(url, type) {
+        this.$store.commit('updateModalData', {
+          url,
+          type,
+        });
+        this.$bvModal.show('ory');
+      },
     },
   };
 </script>
@@ -71,6 +86,16 @@
     display: flex;
     flex-wrap: wrap;
     margin-top: 20px;
+  }
+
+  .image {
+    max-height: 150px;
+    max-width: 200px;
+    margin: 10px 30px 0 0;
+  }
+
+  .video-poster {
+    border: 1px #000 dashed;
   }
 
   .title-container {

@@ -9,11 +9,22 @@
             <time class="date">{{new Date(comment.date).toLocaleDateString()}}</time>
           </div>
           <div class="attached-files">
-            <Modal
-              v-for="file in comment.images.concat(comment.videos)"
-              :url="file.url"
-              :file-type="file.fileType"
-              :key="file.url" />
+            <div>
+              <img
+                class="image video-poster"
+                v-for="file in comment.videos"
+                :src="file.posterUrl"
+                @click="handleClick(file.url, file.fileType)"
+                :key="file.url"
+                alt="image" />
+              <img
+                class="image"
+                v-for="file in comment.images"
+                :src="file.url"
+                @click="handleClick(file.url, file.fileType)"
+                :key="file.url"
+                alt="image" />
+            </div>
           </div>
           <p class="content">{{comment.content}}</p></div>
       </li>
@@ -59,14 +70,10 @@
 <script>
   import { mapMutations, mapGetters } from 'vuex';
 
-  import Modal from './Modal.vue';
-
   export default {
     name: 'Comments',
     props: ['comments'],
-    components: {
-      Modal,
-    },
+
     computed: mapGetters(['newComment', 'commentFiles', 'isValidCommentFiles', 'isValidFormData']),
     methods: {
       ...mapMutations(['updateComment', 'updateCommentFiles']),
@@ -75,6 +82,10 @@
       },
       fileNameFormatter() {
         return 'Файлы выбраны';
+      },
+      handleClick(url, type) {
+        this.$store.commit('updateModalData', { url, type });
+        this.$bvModal.show('ory');
       },
     },
   };
@@ -126,6 +137,16 @@
   .attached-files {
     display: flex;
     flex-wrap: wrap;
+  }
+
+  .image {
+    max-height: 120px;
+    max-width: 150px;
+    margin: 10px 30px 0 0;
+  }
+
+  .video-poster {
+    border: 1px #000 dashed;
   }
 
   .content {

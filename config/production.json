@@ -1,4 +1,6 @@
 {
   "PORT": 80,
   "SERVER_URL": "http://feministach.com/"
+  "SERVER_FILES_PATH": "attached/files/"
+  "UPLOADS_FOLDER_PATH": "./../uploads/"
 }

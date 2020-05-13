@@ -30,14 +30,13 @@ class PostController {
     try {
       const { newComment } = req.body;
 
-      const { images, videos } = getAttachedFilesInfo(req.files);
+      const { images, videos } = await getAttachedFilesInfo(req.files);
 
       const post = await PostModel.findOne({ _id: req.params.id });
 
       post.comments.push({ content: newComment, images, videos });
 
       await post.save();
-
       await res.json({ status: 'updated' });
     } catch (e) {
       console.error('\nERROR: Произошла ошибка при добавлении комментария');
@@ -51,7 +50,7 @@ class PostController {
     try {
       const { title, content } = req.body;
 
-      const { images, videos } = getAttachedFilesInfo(req.files);
+      const { images, videos } = await getAttachedFilesInfo(req.files);
 
       const post = new PostModel({
         title,

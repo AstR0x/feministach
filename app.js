@@ -10,12 +10,13 @@ const authRouter = require('./routes/auth');
 
 const app = express();
 
+const SERVER_FILES_PATH = config.get('SERVER_FILES_PATH');
+
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-
-app.use('/attached/files', express.static(path.resolve(__dirname, '../', 'uploads')));
+app.use(`/${SERVER_FILES_PATH}`, express.static(path.resolve(__dirname, '../', 'uploads')));
 app.use('/posts', postRouter);
 app.use('/auth', authRouter);
 
