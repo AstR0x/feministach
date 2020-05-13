@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <h1 class="not-found">404 Not Found</h1>
-    <img class="icon" src="../icons/Not-Found.svg" alt="">
+    <img class="icon" src="../../static/icons/Not-Found.svg" alt="not-found-icon">
   </div>
 </template>
 

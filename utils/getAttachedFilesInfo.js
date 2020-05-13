@@ -10,8 +10,9 @@ const takeScreenshot = filename => {
     ffmpeg(`${UPLOADS_FOLDER_PATH}${filename}`)
       .screenshots({
         timestamps: ['5%'],
-        folder: './../uploads',
+        folder: UPLOADS_FOLDER_PATH,
         filename: '%b.png',
+        size: '25%',
       })
       .on('end', () => {
         const posterName = `${filename.split('.')[0]}.png`;
