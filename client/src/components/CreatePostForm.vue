@@ -54,6 +54,7 @@
             @input="updateFiles"
             :value="postFiles"
             :state="isValidFiles"
+            :file-name-formatter="fileNameFormatter"
             class="input-file"
             multiple
             accept=".png, .jpg, .jpeg, .mp4, .webm"
@@ -92,15 +93,14 @@
         'clearAll',
       ]),
       ...mapActions(['createPost']),
+      fileNameFormatter() {
+        return 'Файлы выбраны';
+      },
     },
   };
 </script>
 
 <style scoped>
-  .modal {
-    width: 300px;
-    height: 300px;
-  }
   .form-container {
     margin-top: 100px;
     text-align: center;
@@ -126,11 +126,6 @@
 
   .input-file-container {
     margin-top: 30px;
-  }
-
-  .submit-button-container {
-    margin-top: 30px;
-    text-align: right;
   }
 
   .loader {

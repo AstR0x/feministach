@@ -2,11 +2,13 @@
   <div class="comments-container">
     <h3 class="comments-heading">Комментарии</h3>
     <ul class="comments">
-      <li class="list-item" v-for="comment in comments" :key="comment._id">
+      <li class="list-item"
+          v-for="comment in comments"
+          :key="comment._id">
         <Contents :data="comment" />
       </li>
     </ul>
-    <form class="form" @submit.prevent="addComment">
+    <form v-if="!commentIsLoading" class="form" @submit.prevent="addComment">
       <div class="textarea-container">
         <b-form-textarea
           @input="updateComment"
@@ -23,13 +25,13 @@
           @input="updateCommentFiles"
           :value="commentFiles"
           :state="isValidCommentFiles"
+          :file-name-formatter="fileNameFormatter"
           class="input-file"
           multiple
           accept=".png, .jpg, .jpeg, .mp4, .webm"
           placeholder="Выберите изображения"
           drop-placeholder="Поместите изображения сюда"
           browse-text="Выбрать"
-          :file-name-formatter="fileNameFormatter"
         ></b-form-file>
         <b-button
           class="submit-button"
@@ -41,11 +43,15 @@
         </b-button>
       </div>
     </form>
+    <div v-else class="loader">
+      <b-spinner variant="danger" label="Spinning"></b-spinner>
+    </div>
   </div>
 </template>
 
 <script>
   import { mapMutations, mapGetters } from 'vuex';
+
   import Contents from './Contents.vue';
 
   export default {
@@ -55,7 +61,13 @@
     },
     props: ['comments'],
 
-    computed: mapGetters(['newComment', 'commentFiles', 'isValidCommentFiles', 'isValidFormData']),
+    computed: mapGetters([
+      'newComment',
+      'commentFiles',
+      'commentIsLoading',
+      'isValidCommentFiles',
+      'isValidFormData',
+    ]),
     methods: {
       ...mapMutations(['updateComment', 'updateCommentFiles']),
       addComment() {
@@ -116,6 +128,12 @@
     font-size: 16px;
   }
 
+  .loader {
+    width: 80%;
+    text-align: center;
+    margin: 100px 0;
+  }
+
   @media (max-width: 414px) {
     .comments-heading {
       padding-left: 16px;
@@ -134,6 +152,10 @@
     .input-file {
       font-size: 12px;
       width: 60%;
+    }
+
+    .loader {
+      width: 100%;
     }
   }
 </style>

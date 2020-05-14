@@ -12,9 +12,9 @@ module.exports = {
     'no-trailing-spaces': 0,
     'vue/script-indent': ['warn', 2, {
       'baseIndent': 1
-    }]
+    }],
   },
-  'overrides': [
+  overrides: [
     {
       'files': ['*.vue'],
       'rules': {

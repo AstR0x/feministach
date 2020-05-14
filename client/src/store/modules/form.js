@@ -49,7 +49,7 @@ export default {
     },
     updateFiles(state, files) {
       state.postForm.files = files;
-      state.postForm.isValidFiles = (Boolean(files) && files.length <= 5) || null;
+      state.postForm.isValidFiles = files.length ? files.length <= 5 : null;
     },
     updateIsLoading(state, isLoading) {
       state.postForm.isLoading = isLoading;
