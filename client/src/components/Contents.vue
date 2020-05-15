@@ -25,7 +25,7 @@
     <div v-if="data.title" class="title-container">
       <h2 class="title">{{data.title}}</h2>
     </div>
-    <p class="content">{{data.content}}</p>
+    <p class="content" :class="{'post-content': data.title}">{{data.content}}</p>
   </div>
 </template>
 
@@ -80,6 +80,10 @@
   .content {
     margin-top: 20px;
     white-space: pre-wrap;
+  }
+
+  .post-content {
+    width: 50%;
   }
 
   @media (max-width: 414px) {
