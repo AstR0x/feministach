@@ -13,6 +13,7 @@ module.exports = {
     'vue/script-indent': ['warn', 2, {
       'baseIndent': 1
     }],
+    'object-curly-newline': 0,
   },
   overrides: [
     {

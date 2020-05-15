@@ -1,16 +1,16 @@
 <template>
   <div>
-    <div v-if="modalType === 'image'">
+    <div v-if="modalData.fileType === 'image'">
       <b-modal
-        :size="sizes[index]"
-        id="ory"
+        :size="sizes[modalData.sizeIndex]"
+        id="modal"
         centered
         hide-header
         hide-footer
         content-class="content">
         <div @wheel="handleWheel">
           <img
-            :src="modalUrl"
+            :src="modalData.url"
             class="large-item"
             alt="image" />
         </div>
@@ -18,18 +18,19 @@
     </div>
     <div v-else>
       <b-modal
-        :size="sizes[index]"
-        id="ory"
+        id="modal"
         centered
         hide-header
         hide-footer
-        content-class="content">
-        <div @wheel="handleWheel">
+        :size="sizes[modalData.sizeIndex]"
+        :content-class="'content'"
+      >
+        <div class="video-container" @wheel="handleWheel">
           <video
             class="large-item"
             autoplay
             controls
-            :src="modalUrl"
+            :src="modalData.url"
           />
         </div>
       </b-modal>
@@ -42,14 +43,12 @@
 
   export default {
     name: 'Modal',
-    computed: mapGetters([
-      'modalType',
-      'modalUrl',
-    ]),
+    computed: {
+      ...mapGetters(['modalData']),
+    },
     data() {
       return {
         sizes: ['sm', 'md', 'lg', 'xl'],
-        index: 0,
       };
     },
     watch: {
@@ -59,10 +58,12 @@
     },
     methods: {
       handleWheel(event) {
-        if (event.deltaY < 0 && this.index < 3) {
-          this.index += 1;
-        } else if (event.deltaY > 0 && this.index > 0) {
-          this.index -= 1;
+        let sizeIndex = this.modalData.sizeIndex;
+
+        if (event.deltaY < 0 && sizeIndex < 3) {
+          this.$store.commit('updateSizeIndex', sizeIndex += 1);
+        } else if (event.deltaY > 0 && sizeIndex > 0) {
+          this.$store.commit('updateSizeIndex', sizeIndex -= 1);
         }
       },
     },
@@ -71,9 +72,13 @@
 
 <style scoped>
   /deep/ .content {
-    background: transparent;
-    text-align: center;
     border: none;
+    background: transparent;
+    margin: 0 auto;
+  }
+
+  .video-container {
+    margin: 0 auto;
   }
 
   .large-item {

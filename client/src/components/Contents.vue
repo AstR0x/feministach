@@ -10,14 +10,14 @@
           v-for="video in data.videos"
           :src="video.posterUrl"
           :key="video.url"
-          @click="openModal(video.url, video.fileType)"
+          @click="openModal(video)"
           class="attached-image video-poster"
           alt="прикреплённое видео" />
         <img
           v-for="image in data.images"
           :src="image.url"
           :key="image.url"
-          @click="openModal(image.url, image.fileType)"
+          @click="openModal(image)"
           class="attached-image"
           alt="прикрепленное изображение" />
       </div>
@@ -34,12 +34,9 @@
     name: 'Contents',
     props: ['data'],
     methods: {
-      openModal(url, type) {
-        this.$store.commit('updateModalData', {
-          url,
-          type,
-        });
-        this.$bvModal.show('ory');
+      openModal({ url, fileType, width, height }) {
+        this.$store.commit('updateModalData', { url, fileType, width, height });
+        this.$bvModal.show('modal');
       },
     },
   };

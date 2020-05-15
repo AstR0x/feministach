@@ -4,6 +4,8 @@ const images = [{
   originalName: String,
   url: String,
   size: String,
+  width: Number,
+  height: Number,
   fileType: String,
 }];
 
@@ -11,6 +13,8 @@ const videos = [{
   originalName: String,
   url: String,
   size: String,
+  width: Number,
+  height: Number,
   fileType: String,
   posterUrl: String,
 }];

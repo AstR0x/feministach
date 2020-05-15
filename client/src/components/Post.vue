@@ -7,11 +7,7 @@
         v-if="!isOpened"
         :to="'opened/post/' + post._id"
       >
-        <b-button
-          class="submit-button"
-          variant="danger"
-
-        >
+        <b-button class="submit-button" variant="danger">
           Перейти к посту
         </b-button>
       </router-link>

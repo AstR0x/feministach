@@ -5,6 +5,7 @@ export default {
       const data = await res.json();
 
       ctx.commit('updatePost', data);
+      ctx.commit('updateCommentIsLoading', false);
     },
     async addComment(ctx, id) {
       ctx.commit('updateCommentIsLoading', true);
@@ -28,7 +29,6 @@ export default {
       ctx.dispatch('fetchPost', id);
       ctx.commit('updateComment', '');
       ctx.commit('updateCommentFiles', []);
-      ctx.commit('updateCommentIsLoading', false);
     },
   },
   mutations: {

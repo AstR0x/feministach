@@ -29,7 +29,7 @@ export default {
         .trim();
       this.commit('updatePosts', state.originalPosts);
     },
-    toggleSorting(state) {
+    updateSorting(state) {
       state.isFilteredByAmountOfComments = !state.isFilteredByAmountOfComments;
       this.commit('updatePosts', state.originalPosts);
     },

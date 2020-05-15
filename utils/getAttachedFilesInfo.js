@@ -1,26 +1,10 @@
 const config = require('config');
-const ffmpeg = require('fluent-ffmpeg');
+
+const takeScreenshot = require('./takeScreenshot');
+const getMediaInfo = require('./getMediaInfo');
 
 const SERVER_URL = config.get('SERVER_URL');
 const SERVER_FILES_PATH = config.get('SERVER_FILES_PATH');
-const UPLOADS_FOLDER_PATH = config.get('UPLOADS_FOLDER_PATH');
-
-const takeScreenshot = filename => {
-  return new Promise((resolve, reject) => {
-    ffmpeg(`${UPLOADS_FOLDER_PATH}${filename}`)
-      .screenshots({
-        timestamps: ['5%'],
-        folder: UPLOADS_FOLDER_PATH,
-        filename: '%b.png',
-        size: '25%',
-      })
-      .on('end', () => {
-        const posterName = `${filename.split('.')[0]}.png`;
-
-        resolve(posterName);
-      });
-  });
-};
 
 const getAttachedFilesInfo = async files => {
   const promises = files.map(async file => {
@@ -41,6 +25,11 @@ const getAttachedFilesInfo = async files => {
 
       fileInfo.posterUrl = `${SERVER_URL}${SERVER_FILES_PATH}${posterName}`;
     }
+
+    const { width, height } = await getMediaInfo(file.filename);
+
+    fileInfo.width = width;
+    fileInfo.height = height;
 
     return fileInfo;
   });

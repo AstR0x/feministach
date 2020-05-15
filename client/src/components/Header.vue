@@ -20,7 +20,7 @@
         <b-button
           class="button sort-button"
           variant="light"
-          @click="toggleSorting"
+          @click="updateSorting"
           id="tooltip-target-1">
           <b-icon icon="filter"></b-icon>
         </b-button>
@@ -47,7 +47,7 @@
         return this.updateFilter(value);
       },
     },
-    methods: mapMutations(['updateFilter', 'toggleSorting']),
+    methods: mapMutations(['updateFilter', 'updateSorting']),
   };
 </script>
 
