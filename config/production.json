@@ -3,6 +3,6 @@
   "SERVER_URL": "https://feministach.com/",
   "SERVER_FILES_PATH": "attached/files/",
   "UPLOADS_FOLDER_PATH": "./../uploads/",
-  "PRIVATE_KEY_PATH": "~/../etc/letsencrypt/live/feministach.com/privkey.pem",
-  "CERTIFICATE_PATH": "~/../etc/letsencrypt/live/feministach.com/cert.pem"
+  "PRIVATE_KEY_PATH": "./../../etc/letsencrypt/live/feministach.com/privkey.pem",
+  "CERTIFICATE_PATH": "./../../etc/letsencrypt/live/feministach.com/cert.pem"
 }

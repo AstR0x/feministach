@@ -22,7 +22,7 @@ app.use(`/${SERVER_FILES_PATH}`, express.static(path.resolve(__dirname, '../', '
 app.use('/posts', postRouter);
 app.use('/auth', authRouter);
 
-const PORT = config.get('PORT') || 5000;
+const PORT = config.get('PORT');
 const MONGO_DB_URL = process.env.MONGO_DB_URL;
 
 const start = async () => {
