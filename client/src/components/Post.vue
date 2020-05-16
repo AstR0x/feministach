@@ -60,4 +60,10 @@
     color: #fff;
     text-decoration: none;
   }
+
+  @media (max-width: 414px) {
+    .post {
+      padding: 10px;
+    }
+  }
 </style>

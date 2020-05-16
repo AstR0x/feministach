@@ -92,10 +92,6 @@
       margin: 20px 20px 0 0;
     }
 
-    .date {
-      margin-left: 230px;
-    }
-
     .post-content {
       width: 100%;
     }
