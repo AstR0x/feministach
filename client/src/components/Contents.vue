@@ -53,7 +53,6 @@
   }
 
   .date {
-    margin-left: 250px;
     font-size: 12px;
   }
 
@@ -83,7 +82,7 @@
   }
 
   .post-content {
-    width: 50%;
+    width: 70%;
   }
 
   @media (max-width: 414px) {
@@ -95,6 +94,10 @@
 
     .date {
       margin-left: 230px;
+    }
+
+    .post-content {
+      width: 100%;
     }
   }
 </style>
