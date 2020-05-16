@@ -1,3 +1,5 @@
+const fs = require('fs');
+const https = require('https');
 const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -25,27 +27,33 @@ const MONGO_DB_URL = process.env.MONGO_DB_URL;
 
 const start = async () => {
   try {
+    if (process.env.NODE_ENV === 'production') {
+      app.use('/', express.static(path.join(__dirname, 'client', 'dist')));
+
+      app.get('*', (req, res) => {
+        res.sendFile(path.resolve(__dirname, 'client', 'dist', 'index.html'));
+      });
+
+      const key = fs.readFileSync(config.get('PRIVATE_KEY_PATH'));
+      const cert = fs.readFileSync(config.get('CERTIFICATE'));
+
+      https.createServer({ key, cert }, app).listen(PORT, () => {
+        console.log(`Сервер запущен на ${PORT} порте`);
+      });
+    } else {
+      app.listen(PORT, () => console.log(`Сервер запущен на ${PORT} порте`));
+    }
+
     await mongoose.connect(MONGO_DB_URL, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useCreateIndex: true,
-    });
-    mongoose.set('useFindAndModify', false);
-    app.listen(PORT, () => {
-      console.log(`Server has been started on ${PORT}!`);
+      useFindAndModify: false,
     });
   } catch (e) {
     console.log('Server error', e.measure);
     process.exit(1);
   }
 };
-
-if (process.env.NODE_ENV === 'production') {
-  app.use('/', express.static(path.join(__dirname, 'client', 'dist')));
-
-  app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, 'client', 'dist', 'index.html'));
-  });
-}
 
 start();

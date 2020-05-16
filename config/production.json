@@ -1,6 +1,8 @@
 {
-  "PORT": 80,
-  "SERVER_URL": "http://feministach.com/",
+  "PORT": 443,
+  "SERVER_URL": "https://feministach.com/",
   "SERVER_FILES_PATH": "attached/files/",
-  "UPLOADS_FOLDER_PATH": "./../uploads/"
+  "UPLOADS_FOLDER_PATH": "./../uploads/",
+  "PRIVATE_KEY_PATH": "~/../etc/letsencrypt/live/feministach.com/privkey.pem",
+  "CERTIFICATE_PATH": "~/../etc/letsencrypt/live/feministach.com/cert.pem",
 }
