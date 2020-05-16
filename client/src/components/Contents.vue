@@ -92,8 +92,17 @@
       margin: 20px 20px 0 0;
     }
 
+    .title {
+      font-size: 22px;
+    }
+
+    .content {
+      font-size: 14px;
+    }
+
     .post-content {
       width: 100%;
+      margin-top: 10px;
     }
   }
 </style>

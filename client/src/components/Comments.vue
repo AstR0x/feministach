@@ -11,6 +11,7 @@
     <form v-if="!commentIsLoading" class="form" @submit.prevent="addComment">
       <div class="textarea-container">
         <b-form-textarea
+          class="textarea"
           @input="updateComment"
           :value="newComment"
           type="text"
@@ -29,7 +30,7 @@
           class="input-file"
           multiple
           accept=".png, .jpg, .jpeg, .mp4, .webm"
-          placeholder="Выберите изображения"
+          placeholder="Прикрепите файлы"
           drop-placeholder="Поместите изображения сюда"
           browse-text="Выбрать"
         ></b-form-file>
@@ -149,9 +150,17 @@
       width: 100%;
     }
 
+    .textarea {
+      font-size: 14px;
+    }
+
     .input-file {
       font-size: 12px;
       width: 60%;
+    }
+
+    .submit-button {
+      font-size: 12px;
     }
 
     .loader {

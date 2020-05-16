@@ -65,5 +65,14 @@
     .post {
       padding: 10px;
     }
+
+    .submit-button {
+      font-size: 12px;
+    }
+
+    .answer-amount {
+      font-size: 14px;
+      font-weight: bold;
+    }
   }
 </style>
