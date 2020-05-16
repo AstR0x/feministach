@@ -35,7 +35,7 @@ const start = async () => {
       });
 
       const key = fs.readFileSync(config.get('PRIVATE_KEY_PATH'));
-      const cert = fs.readFileSync(config.get('CERTIFICATE'));
+      const cert = fs.readFileSync(config.get('CERTIFICATE_PATH'));
 
       https.createServer({ key, cert }, app).listen(PORT, () => {
         console.log(`Сервер запущен на ${PORT} порте`);
