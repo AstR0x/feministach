@@ -2,6 +2,7 @@ const fs = require('fs');
 const https = require('https');
 const path = require('path');
 const express = require('express');
+const httpsRedirect = require('express-https-redirect');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -22,27 +23,33 @@ app.use(`/${SERVER_FILES_PATH}`, express.static(path.resolve(__dirname, '../', '
 app.use('/posts', postRouter);
 app.use('/auth', authRouter);
 
-const PORT = config.get('PORT');
+const HTTP_PORT = config.get('HTTP_PORT');
+
 const MONGO_DB_URL = process.env.MONGO_DB_URL;
 
 const start = async () => {
   try {
     if (process.env.NODE_ENV === 'production') {
+      app.use('/', httpsRedirect());
       app.use('/', express.static(path.join(__dirname, 'client', 'dist')));
 
       app.get('*', (req, res) => {
         res.sendFile(path.resolve(__dirname, 'client', 'dist', 'index.html'));
       });
 
+      const HTTPS_PORT = config.get('HTTPS_PORT');
+
       const key = fs.readFileSync(config.get('PRIVATE_KEY_PATH'));
       const cert = fs.readFileSync(config.get('CERTIFICATE_PATH'));
 
-      https.createServer({ key, cert }, app).listen(PORT, () => {
-        console.log(`Сервер запущен на ${PORT} порте`);
+      https.createServer({ key, cert }, app).listen(HTTPS_PORT, () => {
+        console.log(`Server is starting on ${HTTPS_PORT} port`);
       });
-    } else {
-      app.listen(PORT, () => console.log(`Сервер запущен на ${PORT} порте`));
     }
+
+    app.listen(HTTP_PORT, () => {
+      console.log(`Server is starting on ${HTTP_PORT} port`);
+    });
 
     await mongoose.connect(MONGO_DB_URL, {
       useNewUrlParser: true,
