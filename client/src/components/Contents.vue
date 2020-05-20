@@ -7,19 +7,13 @@
     <div class="attached-files">
       <div>
         <img
-          v-for="video in data.videos"
-          :src="video.posterUrl"
-          :key="video.url"
-          @click="openModal(video)"
-          class="attached-image video-poster"
-          alt="прикреплённое видео" />
-        <img
-          v-for="image in data.images"
-          :src="image.url"
-          :key="image.url"
-          @click="openModal(image)"
+          v-for="attachedFile in data.videos.concat(data.images)"
+          :src="attachedFile.posterUrl"
+          :key="attachedFile.url"
+          @click="openModal(attachedFile)"
           class="attached-image"
-          alt="прикрепленное изображение" />
+          :class="{'video-poster': attachedFile.fileType === 'video'}"
+          alt="прикреплённый файл" />
       </div>
     </div>
     <div v-if="data.title" class="title-container">
@@ -62,10 +56,9 @@
   }
 
   .attached-image {
+    max-height: 160px;
     vertical-align: top;
-    max-height: 150px;
-    max-width: 150px;
-    margin: 10px 30px 0 0;
+    margin: 10px 20px 0 0;
   }
 
   .video-poster {
@@ -87,8 +80,7 @@
 
   @media (max-width: 414px) {
     .attached-image {
-      max-height: 150px;
-      max-width: 150px;
+      max-height: 100px;
       margin: 20px 20px 0 0;
     }
 

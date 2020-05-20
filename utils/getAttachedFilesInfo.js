@@ -1,6 +1,7 @@
 const config = require('config');
 
-const takeScreenshot = require('./takeScreenshot');
+const makeVideoPoster = require('./makeVideoPoster');
+const makeImagePoster = require('./makeImagePoster');
 const getMediaInfo = require('./getMediaInfo');
 
 const SERVER_URL = config.get('SERVER_URL');
@@ -20,11 +21,11 @@ const getAttachedFilesInfo = async files => {
       url,
     };
 
-    if (fileInfo.fileType === 'video') {
-      const posterName = await takeScreenshot(file.filename);
+    const posterName = fileType === 'image'
+      ? await makeImagePoster(file.filename)
+      : await makeVideoPoster(file.filename);
 
-      fileInfo.posterUrl = `${SERVER_URL}${SERVER_FILES_PATH}${posterName}`;
-    }
+    fileInfo.posterUrl = `${SERVER_URL}${SERVER_FILES_PATH}${posterName}`;
 
     const { width, height } = await getMediaInfo(file.filename);
 
