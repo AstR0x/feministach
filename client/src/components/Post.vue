@@ -40,7 +40,11 @@
         this.$bvModal.show('ory');
       },
       getNewCommentsAmount(id, allCommentsLength) {
-        return allCommentsLength - localStorage.getItem(id);
+        if (localStorage.getItem(id)) {
+          return allCommentsLength - localStorage.getItem(id);
+        }
+
+        return null;
       },
     },
   };
