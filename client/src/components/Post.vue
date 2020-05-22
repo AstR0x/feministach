@@ -1,6 +1,6 @@
 <template>
   <div class="post">
-   <Contents :data="post" />
+    <Contents :data="post" />
     <div class="post-footer">
       <router-link
         class="link"
@@ -13,8 +13,9 @@
       </router-link>
       <div class="answer-amount">
         <span>Ответов: </span>
-        <span
-          :class="{'all-comments-not-read': !getNewCommentsAmount(post._id, post.comments.length)}">
+        <span :class="{
+          'all-comments-not-read': getNewCommentsAmount(post._id, post.comments.length)
+        } === null">
           {{post.comments.length}}
         </span>
         <span v-if="getNewCommentsAmount(post._id, post.comments.length)"
