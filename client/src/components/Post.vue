@@ -12,7 +12,11 @@
         </b-button>
       </router-link>
       <div class="answer-amount">
-        <span >Ответов: {{post.comments.length}}</span>
+        <span>Ответов: </span>
+        <span
+          :class="{'all-comments-not-read': getNewCommentsAmount(post._id, post.comments.length)}">
+          {{post.comments.length}}
+        </span>
         <span v-if="getNewCommentsAmount(post._id, post.comments.length)"
               class="new-comments-amount">
          (+{{getNewCommentsAmount(post._id, post.comments.length)}})
@@ -62,6 +66,10 @@
   .post-footer {
     display: flex;
     justify-content: space-between;
+  }
+
+  .all-comments-are-not-read {
+    color: var(--danger);
   }
 
   .answer-amount {
