@@ -14,7 +14,7 @@
       <div class="answer-amount">
         <span>Ответов: </span>
         <span
-          :class="{'all-comments-not-read': getNewCommentsAmount(post._id, post.comments.length)}">
+          :class="{'all-comments-not-read': !getNewCommentsAmount(post._id, post.comments.length)}">
           {{post.comments.length}}
         </span>
         <span v-if="getNewCommentsAmount(post._id, post.comments.length)"
