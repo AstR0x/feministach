@@ -68,7 +68,7 @@
     justify-content: space-between;
   }
 
-  .all-comments-are-not-read {
+  .all-comments-not-read {
     color: var(--danger);
   }
 
