@@ -11,7 +11,13 @@
           Перейти к посту
         </b-button>
       </router-link>
-      <span class="answer-amount">Ответов: {{post.comments.length}}</span>
+      <div class="answer-amount">
+        <span >Ответов: {{post.comments.length}}</span>
+        <span v-if="getNewCommentsAmount(post._id, post.comments.length)"
+              class="new-comments-amount">
+         (+{{getNewCommentsAmount(post._id, post.comments.length)}})
+        </span>
+      </div>
     </div>
   </div>
 </template>
@@ -32,6 +38,9 @@
           type,
         });
         this.$bvModal.show('ory');
+      },
+      getNewCommentsAmount(id, allCommentsLength) {
+        return allCommentsLength - localStorage.getItem(id);
       },
     },
   };
@@ -54,6 +63,11 @@
   .answer-amount {
     padding-top: 10px;
     text-transform: uppercase;
+  }
+
+  .new-comments-amount {
+    color: var(--danger);
+    font-weight: bold;
   }
 
   .link {
