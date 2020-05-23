@@ -3,12 +3,29 @@
     <h3 class="comments-heading">Комментарии</h3>
     <ul class="comments">
       <li class="list-item"
+          :class="{'highlighted-list-item': highlightedCommentId === comment.id}"
           v-for="comment in comments"
-          :key="comment._id">
-        <Contents :data="comment" />
+          :key="comment.id"
+      >
+        <a class="list-item-link"
+          :name="comment.id">
+          <Contents
+            :data="comment"
+            :highlightComment="highlightComment"
+            :replyToComment="replyToComment"
+          />
+        </a>
       </li>
     </ul>
     <form v-if="!commentIsLoading" class="form" @submit.prevent="addComment">
+      <div class="ids-container">
+        <span class="comment-to-reply-id"
+              v-for="id in commentsIdsToReplay"
+              @click="deleteReplyToComment(id)"
+              :key="id">
+        {{id.slice(-8)}}
+        </span>
+      </div>
       <div class="textarea-container">
         <b-form-textarea
           class="textarea"
@@ -61,13 +78,18 @@
       Contents,
     },
     props: ['comments'],
-
+    data() {
+      return {
+        highlightedCommentId: null,
+      };
+    },
     computed: mapGetters([
       'newComment',
       'commentFiles',
       'commentIsLoading',
       'isValidCommentFiles',
       'isValidFormData',
+      'commentsIdsToReplay',
     ]),
     methods: {
       ...mapMutations(['updateComment', 'updateCommentFiles']),
@@ -78,8 +100,27 @@
         return 'Файлы выбраны';
       },
       handleClick(url, type) {
-        this.$store.commit('updateModalData', { url, type });
-        this.$bvModal.show('ory');
+        this.$store.commit('updateModalData', {
+          url,
+          type,
+        });
+        this.$bvModal.show('modal');
+      },
+      replyToComment(commentId) {
+        const { commentsIdsToReplay, $store } = this;
+
+        if (!commentsIdsToReplay.includes(commentId)) {
+          $store.commit('updateCommentsIdsToReplay', [...commentsIdsToReplay, commentId]);
+        }
+      },
+      deleteReplyToComment(commendId) {
+        const { commentsIdsToReplay, $store } = this;
+        const filteredIds = commentsIdsToReplay.filter(id => id !== commendId);
+
+        $store.commit('updateCommentsIdsToReplay', filteredIds);
+      },
+      highlightComment(id) {
+        this.highlightedCommentId = id;
       },
     },
   };
@@ -113,9 +154,28 @@
     border-radius: 4px;
   }
 
+  .highlighted-list-item {
+    background-color: #ffd6c7;
+  }
+
   .form {
     width: 80%;
     margin: 50px 0;
+  }
+
+  .comment-to-reply-id {
+    padding-left: 4px;
+    font-size: 12px;
+    color: var(--danger);
+  }
+
+  .comment-to-reply-id:hover {
+    cursor: pointer;
+    color: var(--dark);
+  }
+
+  .textarea-container {
+    margin-top: 4px;
   }
 
   .file-input-button-container {
@@ -143,6 +203,10 @@
 
     .comments-container {
       max-width: 100%
+    }
+
+    .list-item {
+      width: 100%;
     }
 
     .form {

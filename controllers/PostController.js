@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const getAttachedFilesInfo = require('../utils/getAttachedFilesInfo');
 const PostModel = require('../models/Post');
 
@@ -15,7 +16,7 @@ class PostController {
 
   async read(req, res) {
     try {
-      const post = await PostModel.findOne({ _id: req.params.id });
+      const post = await PostModel.findOne({ id: req.params.id });
 
       await res.json(post);
     } catch (e) {
@@ -28,15 +29,38 @@ class PostController {
 
   async update(req, res) {
     try {
-      const { newComment } = req.body;
+      const { newComment, commentsIdsToReplay } = req.body;
 
       const { images, videos } = await getAttachedFilesInfo(req.files);
 
-      const post = await PostModel.findOne({ _id: req.params.id });
+      const post = await PostModel.findOne({ id: req.params.id });
 
-      post.comments.push({ content: newComment, images, videos });
+      const id = Date.now();
+
+      post.comments.push({
+        id,
+        images,
+        videos,
+        commentsIdsToReplay,
+        content: newComment,
+      });
+
+      if (commentsIdsToReplay) {
+        if (Array.isArray(commentsIdsToReplay)) {
+          commentsIdsToReplay.forEach(toReplayId => {
+            const index = post.comments.findIndex(comment => comment.id === toReplayId);
+            post.comments[index].replyingCommentsIds.push(id);
+          });
+        } else {
+          const index = post.comments.findIndex(comment => comment.id === commentsIdsToReplay);
+          post.comments[index].replyingCommentsIds.push(id);
+        }
+      }
 
       await post.save();
+
+
+
       await res.json({ status: 'updated' });
     } catch (e) {
       console.error('\nERROR: Произошла ошибка при добавлении комментария');
@@ -52,7 +76,10 @@ class PostController {
 
       const { images, videos } = await getAttachedFilesInfo(req.files);
 
+      const id = Date.now();
+
       const post = new PostModel({
+        id,
         title,
         content,
         images,
@@ -61,7 +88,7 @@ class PostController {
 
       const createdPost = await post.save();
 
-      res.send({ postURL: `/opened/post/${createdPost._id}` });
+      res.send({ postURL: `/opened/post/${createdPost.id}` });
     } catch (e) {
       console.error('\nERROR: Произошла ошибка при создании поста');
       console.error(e);

@@ -16,6 +16,7 @@ const attachedFile = [{
 }];
 
 const postSchema = new Schema({
+  id: String,
   title: {
     type: String,
     required: true,
@@ -27,11 +28,24 @@ const postSchema = new Schema({
   images: attachedFile,
   videos: attachedFile,
   comments: [{
+    id: String,
     content: String,
     images: attachedFile,
     videos: attachedFile,
+    commentsIdsToReplay: {
+      type: [String],
+      default: [],
+    },
+    replyingCommentsIds: {
+      type: [String],
+      default: [],
+    },
     date,
   }],
+  commentsIdsToReplay: {
+    type: [String],
+    default: [],
+  },
   date,
 });
 

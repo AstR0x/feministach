@@ -5,7 +5,7 @@
       <router-link
         class="link"
         v-if="!isOpened"
-        :to="'opened/post/' + post._id"
+        :to="'opened/post/' + post.id"
       >
         <b-button class="submit-button" variant="danger">
           Перейти к посту
@@ -13,14 +13,9 @@
       </router-link>
       <div class="answer-amount">
         <span>Ответов: </span>
-        <span :class="{
-          'all-comments-not-read': getNewCommentsAmount(post._id, post.comments.length) === null
-        }">
-          {{post.comments.length}}
-        </span>
-        <span v-if="getNewCommentsAmount(post._id, post.comments.length)"
-              class="new-comments-amount">
-         (+{{getNewCommentsAmount(post._id, post.comments.length)}})
+        <span :class="className">{{post.comments.length}}</span>
+        <span v-if="notReadCommentsAmount" class="new-comments-amount">
+          {{`(+${notReadCommentsAmount})`}}
         </span>
       </div>
     </div>
@@ -35,22 +30,42 @@
     components: {
       Contents,
     },
+    data() {
+      return {
+        localStorageCommentsAmount: null,
+      };
+    },
     props: ['post', 'isOpened'],
+    computed: {
+      notReadCommentsAmount() {
+        const { post, localStorageCommentsAmount } = this;
+
+        return localStorageCommentsAmount
+          ? post.comments.length - localStorageCommentsAmount
+          : null;
+      },
+      className() {
+        const { localStorageCommentsAmount } = this;
+
+        return {
+          'all-comments-not-read': !localStorageCommentsAmount,
+        };
+      },
+    },
     methods: {
       handleClick(url, type) {
         this.$store.commit('updateModalData', {
           url,
           type,
         });
-        this.$bvModal.show('ory');
+        this.$bvModal.show('modal');
       },
-      getNewCommentsAmount(id, allCommentsLength) {
-        if (localStorage.getItem(id)) {
-          return allCommentsLength - localStorage.getItem(id);
-        }
-
-        return null;
-      },
+    },
+    mounted() {
+      this.localStorageCommentsAmount = localStorage.getItem(this.post.id) || null;
+    },
+    updated() {
+      this.localStorageCommentsAmount = localStorage.getItem(this.post.id) || null;
     },
   };
 </script>
@@ -99,7 +114,6 @@
 
     .answer-amount {
       font-size: 14px;
-      font-weight: bold;
     }
   }
 </style>

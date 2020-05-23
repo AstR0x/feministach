@@ -14,6 +14,7 @@ module.exports = {
       'baseIndent': 1
     }],
     'object-curly-newline': 0,
+    'no-underscore-dangle': 0,
   },
   overrides: [
     {

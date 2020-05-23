@@ -22,6 +22,12 @@ export default {
 
       formData.append('newComment', newComment);
 
+      const commentsIdsToReplay = ctx.state.openedPost.commentsIdsToReplay;
+
+      if (commentsIdsToReplay.length) {
+        commentsIdsToReplay.forEach(commentId => formData.append('commentsIdsToReplay', commentId));
+      }
+
       await fetch(`/posts/${id}`, {
         method: 'PATCH',
         mode: 'cors',
@@ -31,6 +37,7 @@ export default {
       ctx.dispatch('fetchPost', id);
       ctx.commit('updateComment', '');
       ctx.commit('updateCommentFiles', []);
+      ctx.commit('updateCommentsIdsToReplay', []);
     },
   },
   mutations: {
@@ -47,12 +54,16 @@ export default {
     updateCommentIsLoading(state, isLoading) {
       state.openedPost.commentIsLoading = isLoading;
     },
+    updateCommentsIdsToReplay(state, ids) {
+      state.openedPost.commentsIdsToReplay = ids;
+    },
   },
   state: {
     openedPost: {
-      newComment: '',
       post: null,
+      newComment: '',
       commentFiles: [],
+      commentsIdsToReplay: [],
       isValidCommentFiles: null,
       commentIsLoading: false,
     },
@@ -62,7 +73,9 @@ export default {
       return state.openedPost.post;
     },
     newComment(state) {
-      return state.openedPost.newComment;
+      const { newComment } = state.openedPost;
+
+      return newComment;
     },
     commentFiles(state) {
       return state.openedPost.commentFiles;
@@ -76,6 +89,9 @@ export default {
     },
     commentIsLoading(state) {
       return state.openedPost.commentIsLoading;
+    },
+    commentsIdsToReplay(state) {
+      return state.openedPost.commentsIdsToReplay;
     },
   },
 };
