@@ -7,7 +7,7 @@
          :href="`#${commentId}`"
          :key="commentId"
       >
-        {{commentId.slice(-6).toUpperCase() + '\n'}}
+        {{commentId.slice(-8).toUpperCase() + '\n'}}
       </a>
     </div>
     <div class="list-item-header">
@@ -38,7 +38,7 @@
            :href="`#${commentId}`"
            :key="commentId"
         >
-          {{commentId.slice(-6).toUpperCase() + '\n'}}
+          {{commentId.slice(-8).toUpperCase() + '\n'}}
         </a>
       </div>
       <p v-if="!data.title" class="id" @click="replyToComment(data.id)">
