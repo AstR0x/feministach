@@ -22,12 +22,14 @@
 
 <style scoped>
   .post-list {
-    width: 75%;
+    max-width: 60%;
+    margin-bottom: 150px;
   }
 
   @media (max-width: 414px) {
     .post-list {
-      width: 100%;
+      max-width: none;
     }
+
   }
 </style>

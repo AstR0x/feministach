@@ -45,18 +45,22 @@
 </script>
 <style scoped>
   .section {
-    width: 90%;
+    width: 92%;
     margin: 0 auto;
   }
 
   .loader {
-    margin-top: 22%;
+    margin-top: 20%;
     text-align: center;
   }
 
   @media (max-width: 414px) {
     .section {
       width: 100%;
+    }
+
+    .loader {
+      margin-top: 65%;
     }
   }
 </style>

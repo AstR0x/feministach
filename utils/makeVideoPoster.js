@@ -11,7 +11,7 @@ const makeVideoPoster = filename => new Promise(resolve => {
       folder: UPLOADS_FOLDER_PATH,
       timestamps: ['5%'],
       filename: '%b_poster.png',
-      size: '140x?',
+      size: '?x140',
     })
     .on('end', () => {
       const posterName = filename.replace(/.(webm|mp4)$/, '_poster.png');

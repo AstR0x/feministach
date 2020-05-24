@@ -108,6 +108,7 @@
 
   .open-form-button {
     margin-bottom: 30px;
+    font-size: 14px;
   }
 
   .form {
@@ -131,5 +132,11 @@
   .loader {
     margin: 86px 0 95px 0;
     text-align: center;
+  }
+
+  @media (max-width: 414px) {
+    .open-form-button {
+      font-size: 12px;
+    }
   }
 </style>

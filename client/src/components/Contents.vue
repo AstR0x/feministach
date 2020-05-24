@@ -93,7 +93,7 @@
   }
 
   .attached-image {
-    max-height: 160px;
+    max-width: 160px;
     vertical-align: top;
     margin: 10px 20px 0 0;
   }
@@ -103,7 +103,12 @@
   }
 
   .title-container {
-    margin-top: 20px;
+    margin-top: 24px;
+  }
+
+  .title {
+    margin: 0;
+    font-size: 24px;
   }
 
   .content {
@@ -128,12 +133,15 @@
   }
 
   .post-content {
-    width: 70%;
+    width: 80%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 16px;
   }
 
   @media (max-width: 414px) {
     .attached-image {
-      max-height: 100px;
+      max-width: 130px;;
       margin: 20px 20px 0 0;
     }
 

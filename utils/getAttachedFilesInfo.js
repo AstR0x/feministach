@@ -37,8 +37,8 @@ const getAttachedFilesInfo = async files => {
 
   const normalizedFilesData = await Promise.all(promises);
 
-  const images = normalizedFilesData.filter(file => file.fileType === 'image');
-  const videos = normalizedFilesData.filter(file => file.fileType === 'video');
+  const images = normalizedFilesData.filter(file => file.fileType === 'image').sort((a, b) => b.height - a.height);
+  const videos = normalizedFilesData.filter(file => file.fileType === 'video').sort((a, b) => b.height - a.height);
 
   return {
     images,

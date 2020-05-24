@@ -48,7 +48,7 @@
 
 <style scoped>
   .section {
-    width: 90%;
+    width: 92%;
     margin: 0 auto;
   }
 

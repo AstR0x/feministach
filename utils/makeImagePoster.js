@@ -9,7 +9,7 @@ const makeImagePoster = async filename => {
   const pathToResizedImage = `${UPLOADS_FOLDER_PATH}${posterName}`;
 
   await sharp(pathToOriginalImage)
-    .resize(140)
+    .resize({ height: 130 })
     .toFile(pathToResizedImage);
 
   return posterName;

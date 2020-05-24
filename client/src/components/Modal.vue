@@ -7,7 +7,8 @@
         centered
         hide-header
         hide-footer
-        content-class="content">
+        :content-class="`content ${modalData.isMobile ? 'mobile-content' : ''}`"
+      >
         <div @wheel="handleWheel">
           <img
             :src="modalData.url"
@@ -23,7 +24,7 @@
         hide-header
         hide-footer
         :size="sizes[modalData.sizeIndex]"
-        :content-class="'content'"
+        :content-class="`content ${modalData.isMobile ? 'mobile-content' : ''}`"
       >
         <div class="video-container" @wheel="handleWheel">
           <video
@@ -75,6 +76,10 @@
     border: none;
     background: transparent;
     margin: 0 auto;
+  }
+
+  /deep/ .mobile-content {
+    width: 80%;
   }
 
   .video-container {
