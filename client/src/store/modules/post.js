@@ -3,7 +3,6 @@ export default {
     async fetchPost(ctx, id) {
       const res = await fetch(`/posts/${id}`);
       const data = await res.json();
-      console.log(data.comments);
       localStorage.setItem(id, data.comments.length);
 
       ctx.commit('updatePost', data);
