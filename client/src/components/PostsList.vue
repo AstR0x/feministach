@@ -3,8 +3,7 @@
     <Post
       v-for="post in posts"
       :key="post.title + post.content"
-      :post="post"
-    />
+      :post="post" />
   </div>
 </template>
 

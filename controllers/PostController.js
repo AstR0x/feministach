@@ -1,4 +1,3 @@
-const mongoose = require('mongoose');
 const getAttachedFilesInfo = require('../utils/getAttachedFilesInfo');
 const PostModel = require('../models/Post');
 
@@ -31,7 +30,7 @@ class PostController {
     try {
       const { newComment, commentsIdsToReplay } = req.body;
 
-      const { images, videos } = await getAttachedFilesInfo(req.files);
+      const attachedFiles = await getAttachedFilesInfo(req.files);
 
       const post = await PostModel.findOne({ id: req.params.id });
 
@@ -39,8 +38,7 @@ class PostController {
 
       post.comments.push({
         id,
-        images,
-        videos,
+        attachedFiles,
         commentsIdsToReplay,
         content: newComment,
       });
@@ -59,8 +57,6 @@ class PostController {
 
       await post.save();
 
-
-
       await res.json({ status: 'updated' });
     } catch (e) {
       console.error('\nERROR: Произошла ошибка при добавлении комментария');
@@ -74,7 +70,7 @@ class PostController {
     try {
       const { title, content } = req.body;
 
-      const { images, videos } = await getAttachedFilesInfo(req.files);
+      const attachedFiles = await getAttachedFilesInfo(req.files);
 
       const id = Date.now();
 
@@ -82,8 +78,7 @@ class PostController {
         id,
         title,
         content,
-        images,
-        videos,
+        attachedFiles,
       });
 
       const createdPost = await post.save();

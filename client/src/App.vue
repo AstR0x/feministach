@@ -1,10 +1,10 @@
 <template>
   <div id="app">
-    <div class="content">
-      <Header></Header>
-      <Modal></Modal>
-      <router-view />
-    </div>
+      <div class="content">
+        <Header></Header>
+        <Modal></Modal>
+        <router-view />
+      </div>
     <Footer />
   </div>
 </template>
@@ -30,6 +30,7 @@
     flex-direction: column;
     height: 100%;
   }
+
 
   .content {
     background: url('../static/images/geometry.png');

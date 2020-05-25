@@ -7,8 +7,7 @@
         centered
         hide-header
         hide-footer
-        :content-class="`content ${modalData.isMobile ? 'mobile-content' : ''}`"
-      >
+        :content-class="`content ${modalData.isMobile ? 'mobile-content' : ''}`">
         <div @wheel="handleWheel">
           <img
             :src="modalData.url"
@@ -24,15 +23,13 @@
         hide-header
         hide-footer
         :size="sizes[modalData.sizeIndex]"
-        :content-class="`content ${modalData.isMobile ? 'mobile-content' : ''}`"
-      >
+        :content-class="`content ${modalData.isMobile ? 'mobile-content' : ''}`">
         <div class="video-container" @wheel="handleWheel">
           <video
             class="large-item"
             autoplay
             controls
-            :src="modalData.url"
-          />
+            :src="modalData.url" />
         </div>
       </b-modal>
     </div>

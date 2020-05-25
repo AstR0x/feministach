@@ -17,7 +17,7 @@
     <div class="attached-files">
       <div>
         <img
-          v-for="attachedFile in data.videos.concat(data.images)"
+          v-for="attachedFile in data.attachedFiles"
           :src="attachedFile.posterUrl"
           :key="attachedFile.url"
           @click="openModal(attachedFile)"

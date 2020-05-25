@@ -33,17 +33,15 @@ const getAttachedFilesInfo = async files => {
     fileInfo.height = height;
 
     return fileInfo;
-  });
+  }, []);
 
-  const normalizedFilesData = await Promise.all(promises);
 
-  const images = normalizedFilesData.filter(file => file.fileType === 'image').sort((a, b) => b.height - a.height);
-  const videos = normalizedFilesData.filter(file => file.fileType === 'video').sort((a, b) => b.height - a.height);
+  const attachedFiles = await Promise.all(promises);
 
-  return {
-    images,
-    videos,
-  };
+  const images = attachedFiles.filter(file => file.fileType === 'image');
+  const videos = attachedFiles.filter(file => file.fileType === 'video');
+
+  return [...images, ...videos];
 };
 
 module.exports = getAttachedFilesInfo;

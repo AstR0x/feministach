@@ -16,12 +16,10 @@
       id="openForm"
       size="md"
       centered
-      hide-header
-    >
+      hide-header>
       <b-form v-if="!isLoading"
         class="form"
-        @submit.prevent="onSubmit"
-      >
+        @submit.prevent="onSubmit">
         <div>
           <b-input
             @input="updateTitle"

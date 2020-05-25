@@ -17,8 +17,7 @@
           rows="1"
           max-rows="3"
           autocomplete="off"
-          placeholder="Новый комментарий"
-        />
+          placeholder="Новый комментарий" />
       </div>
       <div class="file-input-button-container">
         <b-form-file
@@ -37,8 +36,7 @@
           class="submit-button"
           type="submit"
           variant="danger"
-          :disabled="!isValidFormData"
-        >
+          :disabled="!isValidFormData">
           Ответить
         </b-button>
       </div>
@@ -89,16 +87,12 @@
 
         $store.commit('updateCommentsIdsToReplay', filteredIds);
       },
-      highlightComment(id) {
-        this.highlightedCommentId = id;
-      },
     },
   };
 </script>
 
 <style scoped>
   .form {
-    width: 80%;
     margin: 50px 0;
   }
 
@@ -141,7 +135,6 @@
   @media (max-width: 414px) {
     .form {
       padding: 0 10px;
-      width: 100%;
     }
 
     .textarea {

@@ -1,42 +1,38 @@
 <template>
-  <div class="comments-container">
+  <div>
     <h3 class="comments-heading">Комментарии</h3>
     <ul class="comments">
       <li class="list-item"
           :class="{'highlighted-list-item': highlightedCommentId === comment.id}"
           v-for="comment in comments"
-          :key="comment.id"
-      >
+          :key="comment.id">
         <a class="list-item-link"
           :name="comment.id">
           <Contents
             :data="comment"
             :highlightComment="highlightComment"
-            :replyToComment="replyToComment"
-          />
+            :replyToComment="replyToComment" />
         </a>
       </li>
     </ul>
-    <CreateCommentForm />
   </div>
 </template>
 
 <script>
   import { mapMutations, mapGetters } from 'vuex';
 
-  import CreateCommentForm from './CreateCommentForm.vue';
   import Contents from './Contents.vue';
 
   export default {
     name: 'Comments',
     components: {
       Contents,
-      CreateCommentForm,
     },
     props: ['comments'],
     data() {
       return {
         highlightedCommentId: null,
+        highlightedCommentClass: null,
       };
     },
     computed: mapGetters([
@@ -79,14 +75,15 @@
         this.highlightedCommentId = id;
       },
     },
+    watch: {
+      highlightedCommentId() {
+
+      },
+    },
   };
 </script>
 
 <style scoped>
-  .comments-container {
-    max-width: 50%;
-  }
-
   .comments-heading {
     font-size: 24px;
   }
@@ -119,10 +116,6 @@
     .comments-heading {
       padding-left: 16px;
       font-size: 22px;
-    }
-
-    .comments-container {
-      max-width: 100%
     }
 
     .list-item {

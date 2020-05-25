@@ -11,12 +11,8 @@ export default {
       state.originalPosts = originalPosts;
 
       const posts = originalPosts.filter(post => (
-        post.title
-          .toLowerCase()
-          .match(state.filter)
-        || post.content
-          .toLowerCase()
-          .match(state.filter)));
+        post.title.toLowerCase().match(state.filter)
+        || post.content.toLowerCase().match(state.filter)));
 
       if (state.isFilteredByAmountOfComments) {
         posts.sort((a, b) => (b.comments.length - a.comments.length));
@@ -25,8 +21,7 @@ export default {
       state.posts = posts;
     },
     updateFilter(state, filter) {
-      state.filter = filter.toLowerCase()
-        .trim();
+      state.filter = filter.toLowerCase().trim();
       this.commit('updatePosts', state.originalPosts);
     },
     updateSorting(state) {

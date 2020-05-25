@@ -5,8 +5,7 @@
       <router-link
         class="link"
         v-if="!isOpened"
-        :to="'opened/post/' + post.id"
-      >
+        :to="'opened/post/' + post.id">
         <b-button class="submit-button" variant="danger">
           Перейти к посту
         </b-button>

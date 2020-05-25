@@ -4,8 +4,13 @@
       <b-spinner variant="danger" label="Spinning"></b-spinner>
     </div>
     <div v-else class="section">
-      <Post :post="post" :is-opened="true" />
-      <Comments :comments="post.comments" />
+      <div class="post-container">
+        <Post :post="post" :is-opened="true" />
+      </div>
+      <div class="comments-container">
+        <Comments :comments="post.comments" />
+        <CreateCommentForm />
+      </div>
     </div>
   </div>
 </template>
@@ -13,14 +18,17 @@
 <script>
   import { mapGetters, mapActions } from 'vuex';
 
-  import Comments from '../components/Comments.vue';
   import Post from '../components/Post.vue';
+  import Comments from '../components/Comments.vue';
+  import CreateCommentForm from '../components/CreateCommentForm.vue';
+
 
   export default {
     name: 'OpenedPost',
     components: {
       Post,
       Comments,
+      CreateCommentForm,
     },
     data() {
       return {
@@ -49,6 +57,14 @@
     margin: 0 auto;
   }
 
+  .post-container {
+    margin: 0 auto;
+  }
+
+  .comments-container {
+    max-width: 40%;
+  }
+
   .loader {
     margin-top: 20%;
     text-align: center;
@@ -57,6 +73,10 @@
   @media (max-width: 414px) {
     .section {
       width: 100%;
+    }
+
+    .comments-container {
+      max-width: none;
     }
 
     .loader {
