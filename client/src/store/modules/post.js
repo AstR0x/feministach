@@ -57,6 +57,9 @@ export default {
     updateCommentsIdsToReplay(state, ids) {
       state.openedPost.commentsIdsToReplay = ids;
     },
+    updateHighlightedCommentId(state, id) {
+      state.openedPost.highlightedCommentId = id;
+    },
   },
   state: {
     openedPost: {
@@ -66,6 +69,7 @@ export default {
       commentsIdsToReplay: [],
       isValidCommentFiles: null,
       commentIsLoading: false,
+      highlightedCommentId: null,
     },
   },
   getters: {
@@ -92,6 +96,9 @@ export default {
     },
     commentsIdsToReplay(state) {
       return state.openedPost.commentsIdsToReplay;
+    },
+    highlightedCommentId(state) {
+      return state.openedPost.highlightedCommentId;
     },
   },
 };

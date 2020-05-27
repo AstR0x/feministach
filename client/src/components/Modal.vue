@@ -1,39 +1,25 @@
 <template>
-  <div>
-    <div v-if="modalData.fileType === 'image'">
-      <b-modal
-        :size="sizes[modalData.sizeIndex]"
-        id="modal"
-        centered
-        hide-header
-        hide-footer
-        :content-class="`content ${modalData.isMobile ? 'mobile-content' : ''}`">
-        <div @wheel="handleWheel">
-          <img
-            :src="modalData.url"
-            class="large-item"
-            alt="image" />
-        </div>
-      </b-modal>
+  <b-modal
+    :size="sizes[modalData.sizeIndex]"
+    id="modal"
+    centered
+    hide-header
+    hide-footer
+    :content-class="`content ${mobileContentClass}`">
+    <div :class="videoContainerClass" @wheel="handleWheel">
+      <img
+        v-if="modalData.fileType === 'image'"
+        :src="modalData.url"
+        class="large-item"
+        alt="image" />
+      <video
+        v-else
+        :src="modalData.url"
+        class="large-item"
+        autoplay
+        controls />
     </div>
-    <div v-else>
-      <b-modal
-        id="modal"
-        centered
-        hide-header
-        hide-footer
-        :size="sizes[modalData.sizeIndex]"
-        :content-class="`content ${modalData.isMobile ? 'mobile-content' : ''}`">
-        <div class="video-container" @wheel="handleWheel">
-          <video
-            class="large-item"
-            autoplay
-            controls
-            :src="modalData.url" />
-        </div>
-      </b-modal>
-    </div>
-  </div>
+  </b-modal>
 </template>
 
 <script>
@@ -43,6 +29,12 @@
     name: 'Modal',
     computed: {
       ...mapGetters(['modalData']),
+      mobileContentClass() {
+        return this.modalData.isMobile ? 'mobile-content' : '';
+      },
+      videoContainerClass() {
+        return { 'video-container': this.modalData.fileType === 'video' };
+      },
     },
     data() {
       return {

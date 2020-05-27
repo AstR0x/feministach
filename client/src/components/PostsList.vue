@@ -29,6 +29,5 @@
     .post-list {
       max-width: none;
     }
-
   }
 </style>

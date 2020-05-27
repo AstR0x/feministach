@@ -3,11 +3,11 @@
     <div v-if="!data.title">
       <a class="comment-to-reply-id"
          v-for="commentId in data.commentsIdsToReplay"
-         @click="highlightComment(commentId)"
+         @click="updateHighlightedCommentId(commentId)"
          :href="`#${commentId}`"
          :key="commentId"
       >
-        {{commentId.slice(-8).toUpperCase() + '\n'}}
+        {{getShortId(commentId)}}
       </a>
     </div>
     <div class="list-item-header">
@@ -17,42 +17,54 @@
     <div class="attached-files">
       <div>
         <img
-          v-for="attachedFile in data.attachedFiles"
-          :src="attachedFile.posterUrl"
-          :key="attachedFile.url"
-          @click="openModal(attachedFile)"
+          v-for="file in data.attachedFiles"
+          :src="file.posterUrl"
+          :key="file.url"
+          @click="openModal(file)"
           class="attached-image"
-          :class="{'video-poster': attachedFile.fileType === 'video'}"
+          :class="{'video-poster': file.fileType === 'video'}"
           alt="прикреплённый файл" />
       </div>
     </div>
     <div v-if="data.title" class="title-container">
       <h2 class="title">{{data.title}}</h2>
     </div>
-    <p class="content" :class="{'post-content': data.title}">{{data.content}}</p>
+    <p class="content" :class="postContentClass">{{data.content}}</p>
     <div class="footer">
       <div class="replying-ids">
         <a class="comment-to-reply-id"
            v-for="commentId in data.replyingCommentsIds"
-           @click="highlightComment(commentId)"
+           @click="updateHighlightedCommentId(commentId)"
            :href="`#${commentId}`"
            :key="commentId"
         >
-          {{commentId.slice(-8).toUpperCase() + '\n'}}
+          {{getShortId(commentId)}}
         </a>
       </div>
-      <p v-if="!data.title" class="id" @click="replyToComment(data.id)">
-        {{data.id.slice(-8)}}
+      <p v-if="!data.title"
+         @click="replyToComment(data.id)"
+         class="id"
+      >
+        {{getShortId(data.id)}}
       </p>
     </div>
   </div>
 </template>
 
 <script>
+  import { mapMutations, mapGetters } from 'vuex';
+
   export default {
     name: 'Contents',
-    props: ['data', 'highlightComment', 'replyToComment'],
+    props: ['data'],
+    computed: {
+      ...mapGetters(['commentsIdsToReplay']),
+      postContentClass() {
+        return { 'post-content': Boolean(this.data.title) };
+      },
+    },
     methods: {
+      ...mapMutations(['updateHighlightedCommentId']),
       openModal({ url, fileType, width, height }) {
         this.$store.commit('updateModalData', {
           url,
@@ -61,6 +73,16 @@
           height,
         });
         this.$bvModal.show('modal');
+      },
+      replyToComment(commentId) {
+        const { $store, commentsIdsToReplay } = this;
+
+        if (!commentsIdsToReplay.includes(commentId)) {
+          $store.commit('updateCommentsIdsToReplay', [...commentsIdsToReplay, commentId]);
+        }
+      },
+      getShortId(id) {
+        return id.slice(-8);
       },
     },
   };

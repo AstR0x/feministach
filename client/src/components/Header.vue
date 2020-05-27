@@ -2,7 +2,7 @@
   <header>
     <b-navbar class="header" toggleable="lg" type="dark" variant="danger">
       <h1 class="heading">
-        <b-navbar-brand class="brand" href="/">FEMINISTACH</b-navbar-brand>
+        <b-navbar-brand class="brand" href="/">Feministach</b-navbar-brand>
       </h1>
       <b-navbar-nav class="ml-auto" v-if="this.$route.path === '/'">
         <b-nav-form @submit.prevent>
@@ -56,9 +56,11 @@
     height: 80px;
     padding: 0 100px;
     box-sizing: border-box;
+    background-color: #d2468f;
   }
 
   .heading {
+    text-transform: uppercase;
     margin-top: 8px;
     font-size: 18px;
   }
