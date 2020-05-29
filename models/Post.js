@@ -25,25 +25,19 @@ const attachedFiles = [{
   posterUrl: String,
 }];
 
+const repliesIds = {
+  type: [String],
+  default: [],
+};
+
 const comments = [{
   id: String,
   attachedFiles,
   content: String,
-  commentsIdsToReplay: {
-    type: [String],
-    default: [],
-  },
-  replyingCommentsIds: {
-    type: [String],
-    default: [],
-  },
+  fromRepliesIds: repliesIds,
+  toRepliesIds: repliesIds,
   date,
 }];
-
-const commentsIdsToReplay = {
-  type: [String],
-  default: [],
-};
 
 const postSchema = new Schema({
   id: String,
@@ -52,7 +46,7 @@ const postSchema = new Schema({
   content,
   comments,
   attachedFiles,
-  commentsIdsToReplay,
+  toRepliesIds: repliesIds,
 });
 
 const PostModel = model('Post', postSchema);

@@ -1,7 +1,7 @@
 <template>
   <div class="post" :class="openedPostClass">
     <Contents :data="post" />
-    <div class="post-footer">
+    <div class="post-footer" :class="postFooterReverseClass">
       <router-link
         class="link"
         v-if="!isOpened"
@@ -51,6 +51,9 @@
           'all-comments-not-read': !localStorageCommentsAmount,
         };
       },
+      postFooterReverseClass() {
+        return { 'post-footer-reverse': Boolean(this.$route.params.id) };
+      },
     },
     methods: {
       handleClick(url, type) {
@@ -90,6 +93,10 @@
   .post-footer {
     display: flex;
     justify-content: space-between;
+  }
+
+  .post-footer-reverse {
+    flex-direction: row-reverse;
   }
 
   .all-comments-not-read {

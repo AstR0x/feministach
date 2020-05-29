@@ -1,4 +1,5 @@
 const getAttachedFilesInfo = require('../utils/getAttachedFilesInfo');
+const matchRepliesIds = require('../utils/matchRepliesIds');
 const PostModel = require('../models/Post');
 
 class PostController {
@@ -9,7 +10,8 @@ class PostController {
     } catch (e) {
       console.error('\nERROR: Произошла ошибка при поиске постов');
       console.error(e);
-      await res.status(500).send({ error: 'Произошла ошибка при поиске постов' });
+      await res.status(500)
+        .send({ error: 'Произошла ошибка при поиске постов' });
     }
   }
 
@@ -22,37 +24,32 @@ class PostController {
       console.error('\nERROR: Произошла ошибка при поиске поста');
       console.error(e);
 
-      await res.status(500).send({ error: 'Произошла ошибка при поиске поста' });
+      await res.status(500)
+        .send({ error: 'Произошла ошибка при поиске поста' });
     }
   }
 
   async update(req, res) {
     try {
-      const { newComment, commentsIdsToReplay } = req.body;
+      const { newComment, fromRepliesIdsString } = req.body;
+
+      const fromRepliesIds = JSON.parse(fromRepliesIdsString);
 
       const attachedFiles = await getAttachedFilesInfo(req.files);
 
       const post = await PostModel.findOne({ id: req.params.id });
 
-      const id = Date.now();
+      const commentId = Date.now();
 
       post.comments.push({
-        id,
+        id: commentId,
         attachedFiles,
-        commentsIdsToReplay,
+        fromRepliesIds,
         content: newComment,
       });
 
-      if (commentsIdsToReplay) {
-        if (Array.isArray(commentsIdsToReplay)) {
-          commentsIdsToReplay.forEach(toReplayId => {
-            const index = post.comments.findIndex(comment => comment.id === toReplayId);
-            post.comments[index].replyingCommentsIds.push(id);
-          });
-        } else {
-          const index = post.comments.findIndex(comment => comment.id === commentsIdsToReplay);
-          post.comments[index].replyingCommentsIds.push(id);
-        }
+      if (fromRepliesIds.length) {
+        matchRepliesIds(fromRepliesIds, post, commentId);
       }
 
       await post.save();

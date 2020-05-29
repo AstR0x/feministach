@@ -22,29 +22,27 @@
   import Comments from '../components/Comments.vue';
   import CreateCommentForm from '../components/CreateCommentForm.vue';
 
+  import updateInterval from '../mixins/updateInterval';
+  import updateLoading from '../mixins/updateLoading';
 
   export default {
     name: 'OpenedPost',
+    mixins: [updateInterval, updateLoading],
     components: {
       Post,
       Comments,
       CreateCommentForm,
     },
-    data() {
-      return {
-        isLoading: true,
-        interval: null,
-      };
-    },
     computed: mapGetters(['post']),
     methods: mapActions(['fetchPost']),
     async mounted() {
-      await this.fetchPost(this.$route.params.id);
+      const { $route, fetchPost, setUpdateInterval, setLoading } = this;
 
-      this.isLoading = false;
-      this.interval = setInterval(() => {
-        this.fetchPost(this.$route.params.id);
-      }, 15000);
+      await fetchPost($route.params.id);
+
+      setUpdateInterval(fetchPost);
+
+      setLoading(false);
     },
     beforeDestroy() {
       clearInterval(this.interval);

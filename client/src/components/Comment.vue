@@ -16,7 +16,11 @@
     components: {
       Contents,
     },
-    props: ['comment'],
+    props: {
+      comment: {
+
+      },
+    },
     computed: {
       ...mapGetters(['highlightedCommentId']),
       highlightedListItemClass() {

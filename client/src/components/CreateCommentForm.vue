@@ -1,11 +1,11 @@
 <template>
     <form v-if="!commentIsLoading" class="form" @submit.prevent="addComment">
-      <div class="ids-container">
-        <span class="comment-to-reply-id"
-              v-for="id in commentsIdsToReplay"
+      <div>
+        <span class="reply-id"
+              v-for="id in fromRepliesIds"
               @click="deleteReplyToComment(id)"
               :key="id">
-        {{id.slice(-8)}}
+        {{getShortId(id)}}
         </span>
       </div>
       <div class="textarea-container">
@@ -49,6 +49,8 @@
 <script>
   import { mapMutations, mapGetters } from 'vuex';
 
+  import getShortId from '../utils/getShortId';
+
   export default {
     name: 'CreateCommentForm',
     computed: mapGetters([
@@ -57,7 +59,7 @@
       'commentIsLoading',
       'isValidCommentFiles',
       'isValidFormData',
-      'commentsIdsToReplay',
+      'fromRepliesIds',
     ]),
     methods: {
       ...mapMutations(['updateComment', 'updateCommentFiles']),
@@ -75,18 +77,19 @@
         this.$bvModal.show('modal');
       },
       replyToComment(commentId) {
-        const { commentsIdsToReplay, $store } = this;
+        const { fromRepliesIds, $store } = this;
 
-        if (!commentsIdsToReplay.includes(commentId)) {
-          $store.commit('updateCommentsIdsToReplay', [...commentsIdsToReplay, commentId]);
+        if (!fromRepliesIds.includes(commentId)) {
+          $store.commit('updateFromRepliesIds', [...fromRepliesIds, commentId]);
         }
       },
       deleteReplyToComment(commendId) {
-        const { commentsIdsToReplay, $store } = this;
-        const filteredIds = commentsIdsToReplay.filter(id => id !== commendId);
+        const { fromRepliesIds, $store } = this;
+        const filteredIds = fromRepliesIds.filter(id => id !== commendId);
 
-        $store.commit('updateCommentsIdsToReplay', filteredIds);
+        $store.commit('updateFromRepliesIds', filteredIds);
       },
+      getShortId,
     },
   };
 </script>
@@ -96,13 +99,13 @@
     margin: 50px 0;
   }
 
-  .comment-to-reply-id {
+  .reply-id {
     padding-left: 4px;
     font-size: 12px;
     color: var(--danger);
   }
 
-  .comment-to-reply-id:hover {
+  .reply-id:hover {
     cursor: pointer;
     color: var(--dark);
   }

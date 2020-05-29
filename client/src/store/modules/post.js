@@ -22,11 +22,9 @@ export default {
 
       formData.append('newComment', newComment);
 
-      const commentsIdsToReplay = ctx.state.openedPost.commentsIdsToReplay;
+      const fromRepliesIds = ctx.state.openedPost.fromRepliesIds;
 
-      if (commentsIdsToReplay.length) {
-        commentsIdsToReplay.forEach(commentId => formData.append('commentsIdsToReplay', commentId));
-      }
+      formData.append('fromRepliesIdsString', JSON.stringify(fromRepliesIds));
 
       await fetch(`/posts/${id}`, {
         method: 'PATCH',
@@ -37,7 +35,7 @@ export default {
       ctx.dispatch('fetchPost', id);
       ctx.commit('updateComment', '');
       ctx.commit('updateCommentFiles', []);
-      ctx.commit('updateCommentsIdsToReplay', []);
+      ctx.commit('updateFromRepliesIds', []);
     },
   },
   mutations: {
@@ -54,8 +52,8 @@ export default {
     updateCommentIsLoading(state, isLoading) {
       state.openedPost.commentIsLoading = isLoading;
     },
-    updateCommentsIdsToReplay(state, ids) {
-      state.openedPost.commentsIdsToReplay = ids;
+    updateFromRepliesIds(state, ids) {
+      state.openedPost.fromRepliesIds = ids;
     },
     updateHighlightedCommentId(state, id) {
       state.openedPost.highlightedCommentId = id;
@@ -66,7 +64,7 @@ export default {
       post: null,
       newComment: '',
       commentFiles: [],
-      commentsIdsToReplay: [],
+      fromRepliesIds: [],
       isValidCommentFiles: null,
       commentIsLoading: false,
       highlightedCommentId: null,
@@ -94,8 +92,8 @@ export default {
     commentIsLoading(state) {
       return state.openedPost.commentIsLoading;
     },
-    commentsIdsToReplay(state) {
-      return state.openedPost.commentsIdsToReplay;
+    fromRepliesIds(state) {
+      return state.openedPost.fromRepliesIds;
     },
     highlightedCommentId(state) {
       return state.openedPost.highlightedCommentId;

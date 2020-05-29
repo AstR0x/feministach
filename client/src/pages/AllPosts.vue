@@ -17,28 +17,26 @@
   import CreatePostForm from '../components/CreatePostForm.vue';
   import PostsList from '../components/PostsList.vue';
 
+  import updateInterval from '../mixins/updateInterval';
+  import updateLoading from '../mixins/updateLoading';
+
   export default {
     name: 'AllPosts',
+    mixins: [updateInterval, updateLoading],
     components: {
       CreatePostForm,
       PostsList,
     },
-    data() {
-      return {
-        interval: null,
-        isLoading: true,
-      };
-    },
     computed: mapGetters(['posts']),
     methods: mapActions(['fetchPosts']),
     async mounted() {
-      await this.fetchPosts();
+      const { fetchPosts, setUpdateInterval, setLoading } = this;
 
-      this.interval = setInterval(() => {
-        this.fetchPosts();
-      }, 15000);
+      await fetchPosts();
 
-      this.isLoading = false;
+      setUpdateInterval(fetchPosts);
+
+      setLoading(false);
     },
     beforeDestroy() {
       clearInterval(this.interval);

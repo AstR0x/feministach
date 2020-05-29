@@ -1,8 +1,8 @@
 <template>
   <div>
     <div v-if="!data.title">
-      <a class="comment-to-reply-id"
-         v-for="commentId in data.commentsIdsToReplay"
+      <a class="reply-id"
+         v-for="commentId in data.fromRepliesIds"
          @click="updateHighlightedCommentId(commentId)"
          :href="`#${commentId}`"
          :key="commentId"
@@ -31,9 +31,9 @@
     </div>
     <p class="content" :class="postContentClass">{{data.content}}</p>
     <div class="footer">
-      <div class="replying-ids">
-        <a class="comment-to-reply-id"
-           v-for="commentId in data.replyingCommentsIds"
+      <div v-if="$route.params.id">
+        <a class="reply-id"
+           v-for="commentId in data.toRepliesIds"
            @click="updateHighlightedCommentId(commentId)"
            :href="`#${commentId}`"
            :key="commentId"
@@ -41,10 +41,7 @@
           {{getShortId(commentId)}}
         </a>
       </div>
-      <p v-if="!data.title"
-         @click="replyToComment(data.id)"
-         class="id"
-      >
+      <p v-if="$route.params.id" @click="replyToComment(data.id)" class="id">
         {{getShortId(data.id)}}
       </p>
     </div>
@@ -54,11 +51,13 @@
 <script>
   import { mapMutations, mapGetters } from 'vuex';
 
+  import getShortId from '../utils/getShortId';
+
   export default {
     name: 'Contents',
     props: ['data'],
     computed: {
-      ...mapGetters(['commentsIdsToReplay']),
+      ...mapGetters(['fromRepliesIds']),
       postContentClass() {
         return { 'post-content': Boolean(this.data.title) };
       },
@@ -75,21 +74,19 @@
         this.$bvModal.show('modal');
       },
       replyToComment(commentId) {
-        const { $store, commentsIdsToReplay } = this;
+        const { $store, fromRepliesIds } = this;
 
-        if (!commentsIdsToReplay.includes(commentId)) {
-          $store.commit('updateCommentsIdsToReplay', [...commentsIdsToReplay, commentId]);
+        if (!fromRepliesIds.includes(commentId)) {
+          $store.commit('updateFromRepliesIds', [...fromRepliesIds, commentId]);
         }
       },
-      getShortId(id) {
-        return id.slice(-8);
-      },
+      getShortId,
     },
   };
 </script>
 
 <style scoped>
-  .comment-to-reply-id {
+  .reply-id {
     color: var(--danger);
     padding-right: 4px;
     font-size: 12px;
