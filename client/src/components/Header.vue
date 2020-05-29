@@ -1,39 +1,34 @@
 <template>
   <header>
-    <b-navbar class="header" toggleable="lg" type="dark" variant="danger">
+    <b-navbar class="header" :style="headerBackgroundStyle" type="dark" toggleable="lg">
       <h1 class="heading">
-        <b-navbar-brand class="brand" href="/">Feministach</b-navbar-brand>
+        <b-navbar-brand href="/">Feministach</b-navbar-brand>
       </h1>
-      <b-navbar-nav class="ml-auto" v-if="this.$route.path === '/'">
-        <b-nav-form @submit.prevent>
-          <b-form-input
-            v-model="filter"
-            type="text"
-            trim
-            size="m"
-            class="search-input"
-            debounce="500"
-            placeholder="Поиск"
-            autocomplete="off">
-          </b-form-input>
-        </b-nav-form>
-        <b-button
-          class="button sort-button"
-          variant="light"
-          @click="updateSorting"
-          id="tooltip-target-1">
-          <b-icon icon="filter"></b-icon>
+      <b-navbar-nav class="ml-auto">
+        <template v-if="this.$route.path === '/'">
+          <b-nav-form @submit.prevent>
+            <b-form-input
+              v-model="filter"
+              type="text"
+              trim
+              size="m"
+              class="search-input"
+              debounce="500"
+              placeholder="Поиск"
+              autocomplete="off">
+            </b-form-input>
+          </b-nav-form>
+        </template>
+        <b-button class="button" variant="light" v-b-toggle.sidebar>
+          <b-icon icon="list"></b-icon>
         </b-button>
-        <b-tooltip target="tooltip-target-1" triggers="hover">
-          Сортировка постов по дате или по количеству ответов
-        </b-tooltip>
       </b-navbar-nav>
     </b-navbar>
   </header>
 </template>
 
 <script>
-  import { mapMutations } from 'vuex';
+  import { mapMutations, mapGetters } from 'vuex';
 
   export default {
     name: 'Header',
@@ -47,7 +42,13 @@
         return this.updateFilter(value);
       },
     },
-    methods: mapMutations(['updateFilter', 'updateSorting']),
+    computed: {
+      ...mapGetters(['interfaceColor']),
+      headerBackgroundStyle() {
+        return { backgroundColor: this.interfaceColor || null };
+      },
+    },
+    methods: mapMutations(['updateFilter']),
   };
 </script>
 
@@ -56,7 +57,6 @@
     height: 80px;
     padding: 0 100px;
     box-sizing: border-box;
-    background-color: #d2468f;
   }
 
   .heading {
@@ -72,20 +72,16 @@
 
   @media (max-width: 414px) {
     .header {
+      height: 75px;
       padding: 0 15px;
     }
 
-    .brand {
-      font-size: 18px;
-    }
-
     .search-input {
-      width: 150px;
-      font-size: 12px;
+      display: none;
     }
 
-    .sort-button {
-      display: none;
+    .button {
+      width: 50px;
     }
   }
 </style>

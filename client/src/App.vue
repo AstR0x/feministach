@@ -1,17 +1,21 @@
 <template>
   <div id="app">
-      <div class="content">
-        <Header></Header>
-        <Modal></Modal>
-        <router-view />
-      </div>
+    <div class="content" :style="contentStyles">
+      <Header />
+      <Modal />
+      <Sidebar />
+      <router-view />
+    </div>
     <Footer />
   </div>
 </template>
 
 <script>
+  import { mapGetters } from 'vuex';
+
   import Header from './components/Header.vue';
   import Modal from './components/Modal.vue';
+  import Sidebar from './components/Sidebar.vue';
   import Footer from './components/Footer.vue';
 
   export default {
@@ -19,7 +23,16 @@
     components: {
       Modal,
       Header,
+      Sidebar,
       Footer,
+    },
+    computed: {
+      ...mapGetters(['pageBackgroundImage', 'textColor']),
+      contentStyles() {
+        return {
+          background: this.pageBackgroundImage ? `url(${this.pageBackgroundImage})` : '#fff',
+        };
+      },
     },
   };
 </script>
@@ -29,11 +42,6 @@
     display: flex;
     flex-direction: column;
     height: 100%;
-  }
-
-
-  .content {
-    background: url('../static/images/geometry.png');
   }
 
   .content {

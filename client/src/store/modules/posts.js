@@ -24,8 +24,9 @@ export default {
       state.filter = filter.toLowerCase().trim();
       this.commit('updatePosts', state.originalPosts);
     },
-    updateSorting(state) {
-      state.isFilteredByAmountOfComments = !state.isFilteredByAmountOfComments;
+    updateSorting(state, value) {
+      state.isFilteredByAmountOfComments = value === 'byComments';
+
       this.commit('updatePosts', state.originalPosts);
     },
   },

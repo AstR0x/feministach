@@ -1,25 +1,19 @@
 <template>
   <div class="form-container">
     <b-button
+      :style="buttonStyle"
       class="open-form-button"
-      variant="danger"
       v-b-modal.openForm
     > Создать пост
     </b-button>
     <b-modal
-      @ok.prevent="createPost"
       @hidden="clearAll"
-      :ok-disabled="!(isValidTitle && isValidContent && isValidFiles) || isLoading"
-      ok-title="Создать"
-      ok-variant="danger"
-      ok-only
+      hide-footer
       id="openForm"
       size="md"
       centered
       hide-header>
-      <b-form v-if="!isLoading"
-        class="form"
-        @submit.prevent="onSubmit">
+      <b-form v-if="!isLoading" class="form">
         <div>
           <b-input
             @input="updateTitle"
@@ -61,6 +55,14 @@
             browse-text="Выбрать файлы"
           ></b-form-file>
         </div>
+        <div class="button-container">
+          <b-button
+            @click="createPost"
+            :disabled="!(isValidTitle && isValidContent && isValidFiles) || isLoading"
+            :style="buttonStyle">
+            Создать
+          </b-button>
+        </div>
       </b-form>
       <div v-if="isLoading" class="loader">
         <b-spinner variant="danger" label="Spinning"></b-spinner>
@@ -74,15 +76,24 @@
 
   export default {
     name: 'CreatePostForm',
-    computed: mapGetters([
-      'postTitle',
-      'postContent',
-      'postFiles',
-      'isValidTitle',
-      'isValidContent',
-      'isValidFiles',
-      'isLoading',
-    ]),
+    computed: {
+      ...mapGetters([
+        'postTitle',
+        'postContent',
+        'postFiles',
+        'isValidTitle',
+        'isValidContent',
+        'isValidFiles',
+        'isLoading',
+        'interfaceColor',
+      ]),
+      buttonStyle() {
+        return {
+          backgroundColor: this.interfaceColor || null,
+          border: this.interfaceColor || null,
+        };
+      },
+    },
     methods: {
       ...mapMutations([
         'updateTitle',
@@ -125,6 +136,11 @@
 
   .input-file-container {
     margin-top: 30px;
+  }
+
+  .button-container {
+    margin-top: 20px;
+    text-align: right;
   }
 
   .loader {

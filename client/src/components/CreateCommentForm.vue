@@ -1,49 +1,50 @@
 <template>
-    <form v-if="!commentIsLoading" class="form" @submit.prevent="addComment">
-      <div>
+  <form v-if="!commentIsLoading" class="form" @submit.prevent="addComment">
+    <div>
         <span class="reply-id"
+              :style="styles.idStyle"
               v-for="id in fromRepliesIds"
               @click="deleteReplyToComment(id)"
               :key="id">
         {{getShortId(id)}}
         </span>
-      </div>
-      <div class="textarea-container">
-        <b-form-textarea
-          class="textarea"
-          @input="updateComment"
-          :value="newComment"
-          type="text"
-          rows="1"
-          max-rows="3"
-          autocomplete="off"
-          placeholder="Новый комментарий" />
-      </div>
-      <div class="file-input-button-container">
-        <b-form-file
-          @input="updateCommentFiles"
-          :value="commentFiles"
-          :state="isValidCommentFiles"
-          :file-name-formatter="fileNameFormatter"
-          class="input-file"
-          multiple
-          accept=".png, .jpg, .jpeg, .mp4, .webm"
-          placeholder="Прикрепите файлы"
-          drop-placeholder="Поместите изображения сюда"
-          browse-text="Выбрать"
-        ></b-form-file>
-        <b-button
-          class="submit-button"
-          type="submit"
-          variant="danger"
-          :disabled="!isValidFormData">
-          Ответить
-        </b-button>
-      </div>
-    </form>
-    <div v-else class="loader">
-      <b-spinner variant="danger" label="Spinning"></b-spinner>
     </div>
+    <div class="textarea-container">
+      <b-form-textarea
+        class="textarea"
+        @input="updateComment"
+        :value="newComment"
+        type="text"
+        rows="1"
+        max-rows="3"
+        autocomplete="off"
+        placeholder="Новый комментарий" />
+    </div>
+    <div class="file-input-button-container">
+      <b-form-file
+        @input="updateCommentFiles"
+        :value="commentFiles"
+        :state="isValidCommentFiles"
+        :file-name-formatter="fileNameFormatter"
+        class="input-file"
+        multiple
+        accept=".png, .jpg, .jpeg, .mp4, .webm"
+        placeholder="Прикрепите файлы"
+        drop-placeholder="Поместите изображения сюда"
+        browse-text="Выбрать"
+      ></b-form-file>
+      <b-button
+        class="submit-button"
+        type="submit"
+        :style="styles.buttonStyle"
+        :disabled="!isValidFormData">
+        Ответить
+      </b-button>
+    </div>
+  </form>
+  <div v-else class="loader">
+    <b-spinner :style="styles.loaderStyle" label="Spinning"></b-spinner>
+  </div>
 </template>
 
 <script>
@@ -53,14 +54,31 @@
 
   export default {
     name: 'CreateCommentForm',
-    computed: mapGetters([
-      'newComment',
-      'commentFiles',
-      'commentIsLoading',
-      'isValidCommentFiles',
-      'isValidFormData',
-      'fromRepliesIds',
-    ]),
+    computed: {
+      ...mapGetters([
+        'newComment',
+        'commentFiles',
+        'commentIsLoading',
+        'isValidCommentFiles',
+        'isValidFormData',
+        'fromRepliesIds',
+        'interfaceColor',
+      ]),
+      styles() {
+        return {
+          buttonStyle: {
+            backgroundColor: this.interfaceColor,
+            border: this.interfaceColor,
+          },
+          idStyle: {
+            color: this.interfaceColor,
+          },
+          loaderStyle: {
+            color: this.interfaceColor,
+          },
+        };
+      },
+    },
     methods: {
       ...mapMutations(['updateComment', 'updateCommentFiles']),
       addComment() {

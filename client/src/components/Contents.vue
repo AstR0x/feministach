@@ -6,6 +6,7 @@
          @click="updateHighlightedCommentId(commentId)"
          :href="`#${commentId}`"
          :key="commentId"
+         :style="idColorStyle"
       >
         {{getShortId(commentId)}}
       </a>
@@ -37,11 +38,15 @@
            @click="updateHighlightedCommentId(commentId)"
            :href="`#${commentId}`"
            :key="commentId"
+           :style="idColorStyle"
         >
           {{getShortId(commentId)}}
         </a>
       </div>
-      <p v-if="$route.params.id" @click="replyToComment(data.id)" class="id">
+      <p v-if="$route.params.id"
+         @click="replyToComment(data.id)"
+         :style="idColorStyle"
+         class="id">
         {{getShortId(data.id)}}
       </p>
     </div>
@@ -57,9 +62,14 @@
     name: 'Contents',
     props: ['data'],
     computed: {
-      ...mapGetters(['fromRepliesIds']),
+      ...mapGetters(['fromRepliesIds', 'interfaceColor']),
       postContentClass() {
-        return { 'post-content': Boolean(this.data.title) };
+        return {
+          'post-content': Boolean(this.data.title),
+        };
+      },
+      idColorStyle() {
+        return { color: this.interfaceColor };
       },
     },
     methods: {

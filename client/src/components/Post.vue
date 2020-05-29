@@ -6,7 +6,7 @@
         class="link"
         v-if="!isOpened"
         :to="'opened/post/' + post.id">
-        <b-button class="submit-button" variant="danger">
+        <b-button class="submit-button" :style="buttonStyle">
           Перейти к посту
         </b-button>
       </router-link>
@@ -22,6 +22,8 @@
 </template>
 
 <script>
+  import { mapGetters } from 'vuex';
+
   import Contents from './Contents.vue';
 
   export default {
@@ -37,6 +39,7 @@
     },
     props: ['post', 'isOpened'],
     computed: {
+      ...mapGetters(['interfaceColor']),
       notReadCommentsAmount() {
         const { post, localStorageCommentsAmount } = this;
 
@@ -53,6 +56,12 @@
       },
       postFooterReverseClass() {
         return { 'post-footer-reverse': Boolean(this.$route.params.id) };
+      },
+      buttonStyle() {
+        return {
+          backgroundColor: this.interfaceColor || null,
+          border: this.interfaceColor || null,
+        };
       },
     },
     methods: {
