@@ -57,6 +57,11 @@
         }
       },
     },
+    created() {
+      window.onpopstate = () => {
+        this.$bvModal.hide('modal');
+      };
+    },
   };
 </script>
 
