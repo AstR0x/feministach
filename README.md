@@ -8,6 +8,8 @@
 
 Сайт адаптирован под мобильные устройства.
 
-
+***
 ![screenshot](https://github.com/AstR0x/astr0x.github.io/blob/master/screenshots/feministach1.png)
+
+***
 ![screenshot](https://github.com/AstR0x/astr0x.github.io/blob/master/screenshots/feministach2.png)
