@@ -6,14 +6,17 @@
         class="link"
         v-if="!isOpened"
         :to="'opened/post/' + post.id">
-        <b-button class="submit-button" :style="buttonStyle">
+        <b-button class="submit-button" :style="styles.button">
           Перейти к посту
         </b-button>
       </router-link>
       <div class="answer-amount">
         <span>Ответов: </span>
         <span :class="commentsAmountClass">{{post.comments.length}}</span>
-        <span v-if="notReadCommentsAmount" class="new-comments-amount">
+        <span v-if="notReadCommentsAmount"
+              class="new-comments-amount"
+              :style="styles.newCommentsAmount"
+        >
           {{`(+${notReadCommentsAmount})`}}
         </span>
       </div>
@@ -57,10 +60,15 @@
       postFooterReverseClass() {
         return { 'post-footer-reverse': Boolean(this.$route.params.id) };
       },
-      buttonStyle() {
+      styles() {
         return {
-          backgroundColor: this.interfaceColor || null,
-          border: this.interfaceColor || null,
+          button: {
+            backgroundColor: this.interfaceColor,
+            border: this.interfaceColor,
+          },
+          newCommentsAmount: {
+            color: this.interfaceColor,
+          },
         };
       },
     },
@@ -108,10 +116,6 @@
     flex-direction: row-reverse;
   }
 
-  .all-comments-not-read {
-    color: var(--danger);
-  }
-
   .submit-button {
     font-size: 14px;
   }
@@ -122,7 +126,6 @@
   }
 
   .new-comments-amount {
-    color: var(--danger);
     font-weight: bold;
   }
 
