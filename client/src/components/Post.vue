@@ -12,7 +12,7 @@
       </router-link>
       <div class="answer-amount">
         <span>Ответов: </span>
-        <span :class="commentsAmountClass">{{post.comments.length}}</span>
+        <span :style="styles.allCommentsNotRead">{{post.comments.length}}</span>
         <span v-if="notReadCommentsAmount"
               class="new-comments-amount"
               :style="styles.newCommentsAmount"
@@ -50,24 +50,22 @@
           ? post.comments.length - localStorageCommentsAmount
           : null;
       },
-      commentsAmountClass() {
-        const { localStorageCommentsAmount } = this;
-
-        return {
-          'all-comments-not-read': !localStorageCommentsAmount,
-        };
-      },
       postFooterReverseClass() {
         return { 'post-footer-reverse': Boolean(this.$route.params.id) };
       },
       styles() {
+        const { localStorageCommentsAmount, interfaceColor } = this;
+
         return {
           button: {
-            backgroundColor: this.interfaceColor,
-            border: this.interfaceColor,
+            backgroundColor: interfaceColor,
+            border: interfaceColor,
           },
           newCommentsAmount: {
-            color: this.interfaceColor,
+            color: interfaceColor,
+          },
+          allCommentsNotRead: {
+            color: !localStorageCommentsAmount ? interfaceColor : '#000',
           },
         };
       },
