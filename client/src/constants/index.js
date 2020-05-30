@@ -4,32 +4,45 @@ import geometry from '../../static/images/geometry.png';
 import foggyBirds from '../../static/images/foggy_birds.png';
 import tinyGrid from '../../static/images/tiny_grid.png';
 import watercolor from '../../static/images/watercolor.png';
+import copybook from '../../static/images/copybook.jpg';
 
 export const UPDATE_INTERVAL = 15000;
 export const SLICE_ID_INDEX = -7;
 
-export const backgroundImages = [{
-  name: 'Классический',
-  url: null,
-}, {
-  name: 'Tic tac toe',
-  url: ticTacToe,
-}, {
-  name: 'Dot grid',
-  url: dotGrid,
-}, {
-  name: 'Geometry',
-  url: geometry,
-}, {
-  name: 'Foggy bird',
-  url: foggyBirds,
-}, {
-  name: 'Tiny grid',
-  url: tinyGrid,
-}, {
-  name: 'Ware color',
-  url: watercolor,
-}];
+export const backgroundImages = [
+  {
+    name: 'Классический',
+    url: null,
+  },
+  {
+    name: 'Крестики-нолики',
+    url: ticTacToe,
+  },
+  {
+    name: 'Сетка точек',
+    url: dotGrid,
+  },
+  {
+    name: 'Геометрия',
+    url: geometry,
+  },
+  {
+    name: 'Туманная птица',
+    url: foggyBirds,
+  },
+  {
+    name: 'Маленькая сетка',
+    url: tinyGrid,
+  },
+  {
+    name: 'Акварель',
+    url: watercolor,
+  },
+  {
+    name: 'Тетрадь',
+    url: copybook,
+  },
+];
 
 export const colors = [{
   name: 'Классический',
