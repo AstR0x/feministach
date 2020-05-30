@@ -1,7 +1,7 @@
 <template>
   <div class="form-container">
     <b-button
-      :style="buttonStyle"
+      :style="styles.button"
       class="open-form-button"
       v-b-modal.openForm
     > Создать пост
@@ -59,13 +59,13 @@
           <b-button
             @click="createPost"
             :disabled="!(isValidTitle && isValidContent && isValidFiles) || isLoading"
-            :style="buttonStyle">
+            :style="styles.button">
             Создать
           </b-button>
         </div>
       </b-form>
       <div v-if="isLoading" class="loader">
-        <b-spinner variant="danger" label="Spinning"></b-spinner>
+        <b-spinner label="Spinning" :style="styles.spinner"></b-spinner>
       </div>
     </b-modal>
   </div>
@@ -87,10 +87,15 @@
         'isLoading',
         'interfaceColor',
       ]),
-      buttonStyle() {
+      styles() {
         return {
-          backgroundColor: this.interfaceColor || null,
-          border: this.interfaceColor || null,
+          spinner: {
+            color: this.interfaceColor,
+          },
+          button: {
+            backgroundColor: this.interfaceColor || null,
+            border: this.interfaceColor || null,
+          },
         };
       },
     },

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="isLoading" class="loader">
-      <b-spinner variant="danger" label="Spinning"></b-spinner>
+      <b-spinner label="Spinning" :style="spinnerStyle"></b-spinner>
     </div>
     <div v-else class="section">
       <div class="post-container">
@@ -33,7 +33,14 @@
       Comments,
       CreateCommentForm,
     },
-    computed: mapGetters(['post']),
+    computed: {
+      ...mapGetters(['post', 'interfaceColor']),
+      spinnerStyle() {
+        return {
+          color: this.interfaceColor,
+        };
+      },
+    },
     methods: mapActions(['fetchPost']),
     async mounted() {
       const { $route, fetchPost, setUpdateInterval, setLoading } = this;

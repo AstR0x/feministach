@@ -2,7 +2,7 @@
   <div class="section">
     <CreatePostForm />
     <div v-if="isLoading" class="loader">
-      <b-spinner variant="danger" label="Spinning"></b-spinner>
+      <b-spinner label="Spinning" :style="spinnerStyle"></b-spinner>
     </div>
     <PostsList v-else-if="posts.length" :posts="posts" />
     <div v-else class="info">
@@ -27,7 +27,14 @@
       CreatePostForm,
       PostsList,
     },
-    computed: mapGetters(['posts']),
+    computed: {
+      ...mapGetters(['posts', 'interfaceColor']),
+      spinnerStyle() {
+        return {
+          color: this.interfaceColor,
+        };
+      },
+    },
     methods: mapActions(['fetchPosts']),
     async mounted() {
       const { fetchPosts, setUpdateInterval, setLoading } = this;
