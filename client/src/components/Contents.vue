@@ -6,7 +6,7 @@
          @click="updateHighlightedCommentId(commentId)"
          :href="`#${commentId}`"
          :key="commentId"
-         :style="idColorStyle"
+         :style="styles.idColor"
       >
         {{getShortId(commentId)}}
       </a>
@@ -15,22 +15,22 @@
       <time class="time">{{new Date(data.date).toLocaleTimeString()}}</time>
       <time class="date">{{new Date(data.date).toLocaleDateString()}}</time>
     </div>
-    <div class="attached-files">
-      <div>
-        <img
-          v-for="file in data.attachedFiles"
-          :src="file.posterUrl"
-          :key="file.url"
-          @click="openModal(file)"
-          class="attached-image"
-          :class="{'video-poster': file.fileType === 'video'}"
-          alt="прикреплённый файл" />
+    <div :style="styles.flexContainer">
+      <div class="attached-files">
+          <img
+            v-for="file in data.attachedFiles"
+            :src="file.posterUrl"
+            :key="file.url"
+            @click="openModal(file)"
+            class="attached-image"
+            :class="{'video-poster': file.fileType === 'video'}"
+            alt="прикреплённый файл" />
       </div>
+      <div v-if="data.title" class="title-container">
+        <h2 class="title">{{data.title}}</h2>
+      </div>
+      <p class="content" :class="postContentClass">{{data.content}}</p>
     </div>
-    <div v-if="data.title" class="title-container">
-      <h2 class="title">{{data.title}}</h2>
-    </div>
-    <p class="content" :class="postContentClass">{{data.content}}</p>
     <div class="footer">
       <div v-if="$route.params.id">
         <a class="reply-id"
@@ -38,14 +38,14 @@
            @click="updateHighlightedCommentId(commentId)"
            :href="`#${commentId}`"
            :key="commentId"
-           :style="idColorStyle"
+           :style="styles.idColor"
         >
           {{getShortId(commentId)}}
         </a>
       </div>
       <p v-if="$route.params.id"
          @click="replyToComment(data.id)"
-         :style="idColorStyle"
+         :style="styles.idColor"
          class="id">
         {{getShortId(data.id)}}
       </p>
@@ -68,8 +68,17 @@
           'post-content': Boolean(this.data.title),
         };
       },
-      idColorStyle() {
-        return { color: this.interfaceColor };
+      styles() {
+        const { attachedFiles, title } = this.data;
+
+        return {
+          flexContainer: {
+            display: attachedFiles.length === 1 && !title ? 'flex' : 'block',
+          },
+          idColor: {
+            color: this.interfaceColor,
+          },
+        };
       },
     },
     methods: {
@@ -100,6 +109,7 @@
     color: var(--danger);
     padding-right: 4px;
     font-size: 12px;
+    text-decoration: none;
   }
 
   .list-item-header {
@@ -114,11 +124,6 @@
 
   .date {
     font-size: 12px;
-  }
-
-  .attached-files {
-    display: flex;
-    flex-wrap: wrap;
   }
 
   .attached-image {
@@ -166,6 +171,10 @@
     overflow: hidden;
     text-overflow: ellipsis;
     font-size: 16px;
+  }
+
+  .inline-block {
+    display: inline-block;
   }
 
   @media (max-width: 414px) {
