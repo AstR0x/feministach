@@ -71,5 +71,9 @@
     .section {
       width: 100%;
     }
+
+    .loader {
+      margin-top: 30%
+    }
   }
 </style>

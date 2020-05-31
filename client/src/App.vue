@@ -16,6 +16,7 @@
   import Header from './components/Header.vue';
   import Modal from './components/Modal.vue';
   import Sidebar from './components/Sidebar.vue';
+  import Footer from './components/Footer.vue';
 
   export default {
     name: 'app',
@@ -23,6 +24,7 @@
       Modal,
       Header,
       Sidebar,
+      Footer,
     },
     computed: {
       ...mapGetters(['pageBackgroundImage', 'textColor']),
@@ -44,5 +46,11 @@
 
   .content {
     flex: 1 0 auto
+  }
+
+  @media (max-width: 414px) {
+    #app {
+      height: 110%;
+    }
   }
 </style>
