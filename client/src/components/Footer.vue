@@ -16,7 +16,7 @@
     computed: {
       ...mapGetters(['interfaceColor']),
       footerBackgroundStyle() {
-        return { backgroundColor: this.interfaceColor || null };
+        return { backgroundColor: this.interfaceColor };
       },
     },
   };
