@@ -1,10 +1,10 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 
-import AllPosts from './pages/AllPosts.vue';
-import OpenedPost from './pages/OpenedPost.vue';
-import Auth from './pages/Auth.vue';
-import NotFound from './pages/NotFound.vue';
+// import AllPosts from './pages/AllPosts.vue';
+// import OpenedPost from './pages/OpenedPost.vue';
+// import Auth from './pages/Auth.vue';
+// import NotFound from './pages/NotFound.vue';
 
 Vue.use(Router);
 
@@ -13,19 +13,19 @@ export default new Router({
   routes: [
     {
       path: '/',
-      component: AllPosts,
+      component: () => import('./pages/AllPosts.vue'),
     },
     {
       path: '/opened/post/:id',
-      component: OpenedPost,
+      component: () => import('./pages/OpenedPost.vue'),
     },
     {
       path: '/auth',
-      component: Auth,
+      component: () => import('./pages/Auth.vue'),
     },
     {
       path: '*',
-      component: NotFound,
+      component: () => import('./pages/NotFound'),
     },
   ],
 });
