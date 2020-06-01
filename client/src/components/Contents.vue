@@ -22,7 +22,7 @@
             :src="file.posterUrl"
             :key="file.url"
             @click="openModal(file)"
-            class="attached-image"
+            class="attached-file"
             :class="{'video-poster': file.fileType === 'video'}"
             alt="прикреплённый файл" />
       </div>
@@ -126,7 +126,7 @@
     font-size: 12px;
   }
 
-  .attached-image {
+  .attached-file {
     max-width: 160px;
     vertical-align: top;
     margin: 10px 20px 0 0;
@@ -178,7 +178,7 @@
   }
 
   @media (max-width: 414px) {
-    .attached-image {
+    .attached-file {
       max-width: 130px;;
       margin: 20px 20px 0 0;
     }
