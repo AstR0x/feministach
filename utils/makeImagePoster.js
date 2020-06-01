@@ -6,7 +6,7 @@ const config = require('config');
 const UPLOADS_FOLDER_PATH = config.get('UPLOADS_FOLDER_PATH');
 
 const createNewFilename = (filename, addition) => {
-  return `${path.basename(filename, path.extname(filename))}${addition}${path.extname(filename)}`;
+  return `${path.basename(filename, path.extname(filename))}${addition}.png`;
 };
 
 const makeImagePoster = async filename => {
