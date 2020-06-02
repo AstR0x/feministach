@@ -1,7 +1,7 @@
 <template>
     <transition-group
       class="post-list"
-      name="flip-list"
+      name="list"
       tag="div">
       <Post
         v-for="post in posts"
@@ -28,8 +28,17 @@
     margin-bottom: 150px;
   }
 
-  .flip-list-move {
+  .list-move {
     transition: transform 1s;
+  }
+
+  .list-enter-active, .list-leave-active {
+    transition: all 1s;
+  }
+
+  .list-enter, .list-leave-to {
+    opacity: 0;
+    transform: translateY(30px);
   }
 
   @media (max-width: 414px) {

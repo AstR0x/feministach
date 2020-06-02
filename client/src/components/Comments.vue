@@ -1,12 +1,12 @@
 <template>
   <div>
     <h3 class="comments-heading">Комментарии</h3>
-    <ul class="comments">
+    <transition-group name="list" class="comments" tag="ul">
       <Comment
         v-for="comment in comments"
         :comment="comment"
         :key="comment.id" />
-    </ul>
+    </transition-group>
   </div>
 </template>
 
@@ -23,6 +23,14 @@
 </script>
 
 <style scoped>
+  .list-enter-active, .list-leave-active {
+    transition: all 1s;
+  }
+  .list-enter, .list-leave-to {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
   .comments-heading {
     font-size: 24px;
   }
