@@ -1,10 +1,11 @@
 const ffmpeg = require('fluent-ffmpeg');
-const config = require('config');
 
-const UPLOADS_FOLDER_PATH = config.get('UPLOADS_FOLDER_PATH');
+const { createPathsToFiles } = require('./createPathsToFiles');
 
-const getMediaInfo = filename => new Promise((resolve, reject) => {
-  ffmpeg.ffprobe(`${UPLOADS_FOLDER_PATH}${filename}`, (err, metadata) => {
+const getMediaResolution = filename => new Promise((resolve, reject) => {
+  const pathToOriginalFile = createPathsToFiles(filename).pathToOriginalFile;
+
+  ffmpeg.ffprobe(pathToOriginalFile, (err, metadata) => {
     if (err) {
       reject(err);
     }
@@ -21,4 +22,4 @@ const getMediaInfo = filename => new Promise((resolve, reject) => {
   });
 });
 
-module.exports = getMediaInfo;
+module.exports = getMediaResolution;

@@ -5,16 +5,16 @@ const UPLOADS_FOLDER_PATH = config.get('UPLOADS_FOLDER_PATH');
 
 const EXTNAME = '.png';
 
-const createFileName = (filename, addition) => {
-  return `${path.basename(filename, path.extname(filename))}${addition || ''}${EXTNAME}`;
+const createFilename = (filename, addition) => `${path.basename(filename, path.extname(filename))}${addition}${EXTNAME}`;
+
+const createPathToFile = (filename, addition) => {
+  return `${UPLOADS_FOLDER_PATH}${createFilename(filename, addition)}`;
 };
 
-const createPathsToFiles = filename => {
-  return {
-    pathToOriginalFile: createFileName(filename),
-    pathToTempFile: createFileName(filename, '__temp'),
-    pathToPoster: createFileName(filenamem '__poster'),
-  };
-};
+const createPathsToFiles = filename => ({
+  pathToOriginalFile: `${UPLOADS_FOLDER_PATH}${path.basename(filename)}`,
+  pathToTempFile: `${createPathToFile(filename, '__temp')}`,
+  pathToPoster: `${createPathToFile(filename, '__poster')}`,
+});
 
-module.exports = createFilename;
+module.exports = { createPathsToFiles, createFilename };

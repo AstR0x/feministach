@@ -1,22 +1,17 @@
 const fs = require('fs');
+const sharp = require('sharp');
 
-const createNewFilename = (filename, addition) => {
-  return `${path.basename(filename, path.extname(filename))}${addition}.png`;
-};
+const { createPathsToFiles } = require('./createPathsToFiles');
 
+const rotateImage = async filename => {
+  const { pathToOriginalFile, pathToTempFile } = createPathsToFiles(filename);
 
-const tempImageName = createNewFilename(filename, '__temp');
-// Понадобился промежуточный файл,
-// так как перезапись сразу в оригинальный файл не поправила перевёрнутость
-const pathToTempFile = `${UPLOADS_FOLDER_PATH}${tempImageName}`;
-
-const meta = await sharp(pathToOriginalImage).metadata();
-
-// Таким образом исправляю перевёрнутость изображений в 4к, загруженных с телефона
-if (meta.width === 3840 && meta.height === 2160) {
-  await sharp(pathToOriginalImage)
+  await sharp(pathToOriginalFile)
     .rotate()
     .toFile(pathToTempFile);
 
-  fs.unlinkSync(pathToOriginalImage);
-  fs.renameSync(pathToTempFile, pathToOriginalImage);
+  fs.unlinkSync(pathToOriginalFile);
+  fs.renameSync(pathToTempFile, pathToOriginalFile);
+};
+
+module.exports = rotateImage;

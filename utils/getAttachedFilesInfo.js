@@ -2,17 +2,23 @@ const config = require('config');
 
 const makeVideoPoster = require('./makeVideoPoster');
 const makeImagePoster = require('./makeImagePoster');
-const getMediaInfo = require('./getMediaInfo');
+const rotateImage = require('./rotateImage');
+const getMediaResolution = require('./getMediaResolution');
 
 const SERVER_URL = config.get('SERVER_URL');
 const SERVER_FILES_PATH = config.get('SERVER_FILES_PATH');
 
 const getAttachedFilesInfo = async files => {
   const promises = files.map(async file => {
-    const fileType = file.mimetype.match(/image/) ? 'image' : 'video';
-    const url = `${SERVER_URL}${SERVER_FILES_PATH}${file.filename}`;
-    const originalName = file.originalname;
-    const size = file.size;
+    const {
+      originalname: originalName,
+      filename,
+      size,
+      mimetype,
+    } = file;
+
+    const fileType = mimetype.match(/image/) ? 'image' : 'video';
+    const url = `${SERVER_URL}${SERVER_FILES_PATH}${filename}`;
 
     const fileInfo = {
       originalName,
@@ -21,16 +27,28 @@ const getAttachedFilesInfo = async files => {
       url,
     };
 
-    const posterName = fileType === 'image'
-      ? await makeImagePoster(file.filename)
-      : await makeVideoPoster(file.filename);
-
-    fileInfo.posterUrl = `${SERVER_URL}${SERVER_FILES_PATH}${posterName}`;
-
-    const { width, height } = await getMediaInfo(file.filename);
+    const { width, height } = await getMediaResolution(filename);
 
     fileInfo.width = width;
     fileInfo.height = height;
+
+    // Если фотография разрешения 4К загружается с телефона, то она отображается перевёрнутой,
+    // поэтому переворачиваем.
+    if (width === 3840 && height === 2160) {
+      await rotateImage(filename);
+      const {
+        width: widthAfterRotate,
+        height: heightAfterRotate,
+      } = await getMediaResolution(filename);
+
+      fileInfo.width = widthAfterRotate;
+      fileInfo.height = heightAfterRotate;
+    }
+    const posterName = fileType === 'image'
+      ? await makeImagePoster(filename)
+      : await makeVideoPoster(filename);
+
+    fileInfo.posterUrl = `${SERVER_URL}${SERVER_FILES_PATH}${posterName}`;
 
     return fileInfo;
   }, []);
