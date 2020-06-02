@@ -15,7 +15,7 @@
       <time class="time">{{new Date(data.date).toLocaleTimeString()}}</time>
       <time class="date">{{new Date(data.date).toLocaleDateString()}}</time>
     </div>
-    <div :style="styles.flexContainer">
+    <div class="flex-container" :style="styles.flexContainer">
       <div class="attached-files">
           <img
             v-for="file in data.attachedFiles"
@@ -124,6 +124,10 @@
 
   .date {
     font-size: 12px;
+  }
+
+  .flex-container {
+    margin: 10px 0;
   }
 
   .attached-file {
