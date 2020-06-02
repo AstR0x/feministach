@@ -1,11 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 
-// import AllPosts from './pages/AllPosts.vue';
-// import OpenedPost from './pages/OpenedPost.vue';
-// import Auth from './pages/Auth.vue';
-// import NotFound from './pages/NotFound.vue';
-
 Vue.use(Router);
 
 export default new Router({
@@ -13,19 +8,19 @@ export default new Router({
   routes: [
     {
       path: '/',
-      component: () => import('./pages/AllPosts.vue'),
+      component: () => import(/* webpackChunkName: "AllPosts" */ './pages/AllPosts.vue'),
     },
     {
       path: '/opened/post/:id',
-      component: () => import('./pages/OpenedPost.vue'),
+      component: () => import(/* webpackChunkName: "OpenedPost" */ './pages/OpenedPost.vue'),
     },
     {
       path: '/auth',
-      component: () => import('./pages/Auth.vue'),
+      component: () => import(/* webpackChunkName: "Auth" */ './pages/Auth.vue'),
     },
     {
       path: '*',
-      component: () => import('./pages/NotFound'),
+      component: () => import(/* webpackChunkName: "NotFound" */ './pages/NotFound'),
     },
   ],
 });
