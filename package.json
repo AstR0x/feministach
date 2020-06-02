@@ -5,7 +5,7 @@
   "scripts": {
     "server": "nodemon app.js",
     "dev": "cross-env NODE_ENV=development concurrently \"npm run server\" \"npm run serve --prefix ./client \"",
-    "start": "cross-env NODE_ENV=production pm2 start node -- app.js"
+    "start": "cross-env NODE_ENV=production pm2 --time start node -- app.js"
   },
   "dependencies": {
     "body-parser": "^1.19.0",
