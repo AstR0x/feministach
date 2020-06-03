@@ -8,6 +8,8 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const config = require('config');
 
+const limiter = require('./middleware/rateLimiter');
+
 const postRouter = require('./routes/post');
 const authRouter = require('./routes/auth');
 
@@ -20,7 +22,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.use(`/${SERVER_FILES_PATH}`, express.static(path.resolve(__dirname, '../', 'uploads')));
-app.use('/posts', postRouter);
+app.use('/posts', limiter, postRouter);
 app.use('/auth', authRouter);
 
 const HTTP_PORT = config.get('HTTP_PORT');
