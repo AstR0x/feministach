@@ -3,8 +3,10 @@ const config = require('config');
 
 const UPLOADS_FOLDER_PATH = config.get('UPLOADS_FOLDER_PATH');
 
+const { createPathsToFiles, createFilename } = require('./createPathsToFiles');
+
 const makeVideoPoster = filename => new Promise(resolve => {
-  const pathToVideo = `${UPLOADS_FOLDER_PATH}${filename}`;
+  const { pathToOriginalFile: pathToVideo } = createPathsToFiles(filename);
 
   ffmpeg(pathToVideo)
     .screenshots({
@@ -14,7 +16,7 @@ const makeVideoPoster = filename => new Promise(resolve => {
       size: '?x140',
     })
     .on('end', () => {
-      const posterName = filename.replace(/.(webm|mp4)$/, '_poster.png');
+      const posterName = createFilename(filename, '__poster', false);
 
       resolve(posterName);
     });

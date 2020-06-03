@@ -1,9 +1,9 @@
 const config = require('config');
 
-const makeVideoPoster = require('./makeVideoPoster');
-const makeImagePoster = require('./makeImagePoster');
 const rotateImage = require('./rotateImage');
 const getMediaResolution = require('./getMediaResolution');
+const makeImagePoster = require('./makeImagePoster');
+const makeVideoPoster = require('./makeVideoPoster');
 
 const SERVER_URL = config.get('SERVER_URL');
 const SERVER_FILES_PATH = config.get('SERVER_FILES_PATH');

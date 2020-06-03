@@ -4,14 +4,17 @@ const sharp = require('sharp');
 const { createPathsToFiles } = require('./createPathsToFiles');
 
 const rotateImage = async filename => {
-  const { pathToOriginalFile, pathToTempFile } = createPathsToFiles(filename);
+  const {
+    pathToOriginalFile: pathToImage,
+    pathToTempFile: pathToTempImage,
+  } = createPathsToFiles(filename);
 
-  await sharp(pathToOriginalFile)
+  await sharp(pathToImage)
     .rotate()
-    .toFile(pathToTempFile);
+    .toFile(pathToTempImage);
 
-  fs.unlinkSync(pathToOriginalFile);
-  fs.renameSync(pathToTempFile, pathToOriginalFile);
+  fs.unlinkSync(pathToImage);
+  fs.renameSync(pathToTempImage, pathToImage);
 };
 
 module.exports = rotateImage;
