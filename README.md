@@ -9,7 +9,7 @@
 Сайт адаптирован под мобильные устройства.
 
 ###### Демонстрация
-Посмотреть на приложение можно перейдя по [ссылке](https://feministach.com). 
+Посмотреть на приложение можно, перейдя по [ссылке](https://feministach.com). 
 
 ###### Скриншот
 ![screenshot](https://github.com/AstR0x/astr0x.github.io/blob/master/screenshots/feministach.png)
